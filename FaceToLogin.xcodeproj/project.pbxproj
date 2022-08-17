@@ -1,0 +1,454 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 55;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3B33A3A828A39A950033DBF8 /* Publisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B33A3A728A39A950033DBF8 /* Publisher.swift */; };
+		3B382BE1289D1F1500F0981D /* BiometricAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B382BE0289D1F1500F0981D /* BiometricAuth.swift */; };
+		3B382BE3289D20B200F0981D /* KeychainConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B382BE2289D20B200F0981D /* KeychainConfiguration.swift */; };
+		3B382BE5289D306900F0981D /* AuthenticateStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B382BE4289D306900F0981D /* AuthenticateStore.swift */; };
+		3B382BEA289D52CD00F0981D /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B382BE9289D52CD00F0981D /* UserDefaults.swift */; };
+		3B382BEF289D5A8F00F0981D /* EnterPasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B382BEE289D5A8F00F0981D /* EnterPasswordViewModel.swift */; };
+		3B57B69F28AAE49E008DFCBD /* AuthenticateStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B57B69E28AAE49E008DFCBD /* AuthenticateStage.swift */; };
+		3B57B6A428AAE9C4008DFCBD /* EnterPincodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B57B6A328AAE9C4008DFCBD /* EnterPincodeViewModel.swift */; };
+		3B57B6A628AAEE83008DFCBD /* HomeEnterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B57B6A528AAEE83008DFCBD /* HomeEnterViewModel.swift */; };
+		3BAF6A19289C05CB00B4945A /* FaceToLoginApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAF6A18289C05CB00B4945A /* FaceToLoginApp.swift */; };
+		3BAF6A1B289C05CB00B4945A /* EnterPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAF6A1A289C05CB00B4945A /* EnterPasswordView.swift */; };
+		3BAF6A1D289C05CC00B4945A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3BAF6A1C289C05CC00B4945A /* Assets.xcassets */; };
+		3BAF6A20289C05CC00B4945A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3BAF6A1F289C05CC00B4945A /* Preview Assets.xcassets */; };
+		3BAF6A28289C069100B4945A /* KeychainPasswordItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAF6A27289C069100B4945A /* KeychainPasswordItem.swift */; };
+		3BDF10E628A1038F002AD163 /* HomeEnterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDF10E528A1038F002AD163 /* HomeEnterView.swift */; };
+		3BDF10E828A292F4002AD163 /* EnterPincodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDF10E728A292F4002AD163 /* EnterPincodeView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		3B33A3A728A39A950033DBF8 /* Publisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Publisher.swift; sourceTree = "<group>"; };
+		3B382BE0289D1F1500F0981D /* BiometricAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricAuth.swift; sourceTree = "<group>"; };
+		3B382BE2289D20B200F0981D /* KeychainConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainConfiguration.swift; sourceTree = "<group>"; };
+		3B382BE4289D306900F0981D /* AuthenticateStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticateStore.swift; sourceTree = "<group>"; };
+		3B382BE9289D52CD00F0981D /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
+		3B382BEE289D5A8F00F0981D /* EnterPasswordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterPasswordViewModel.swift; sourceTree = "<group>"; };
+		3B57B69E28AAE49E008DFCBD /* AuthenticateStage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticateStage.swift; sourceTree = "<group>"; };
+		3B57B6A328AAE9C4008DFCBD /* EnterPincodeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterPincodeViewModel.swift; sourceTree = "<group>"; };
+		3B57B6A528AAEE83008DFCBD /* HomeEnterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeEnterViewModel.swift; sourceTree = "<group>"; };
+		3BAF6A15289C05CB00B4945A /* FaceToLogin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FaceToLogin.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3BAF6A18289C05CB00B4945A /* FaceToLoginApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceToLoginApp.swift; sourceTree = "<group>"; };
+		3BAF6A1A289C05CB00B4945A /* EnterPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterPasswordView.swift; sourceTree = "<group>"; };
+		3BAF6A1C289C05CC00B4945A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		3BAF6A1F289C05CC00B4945A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		3BAF6A26289C05FB00B4945A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		3BAF6A27289C069100B4945A /* KeychainPasswordItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainPasswordItem.swift; sourceTree = "<group>"; };
+		3BDF10E528A1038F002AD163 /* HomeEnterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeEnterView.swift; sourceTree = "<group>"; };
+		3BDF10E728A292F4002AD163 /* EnterPincodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterPincodeView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3BAF6A12289C05CB00B4945A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3B382BE6289D50F200F0981D /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				3B57B6A028AAE97A008DFCBD /* Steps */,
+				3BDF10E528A1038F002AD163 /* HomeEnterView.swift */,
+				3B57B6A528AAEE83008DFCBD /* HomeEnterViewModel.swift */,
+				3B57B69E28AAE49E008DFCBD /* AuthenticateStage.swift */,
+				3B382BE4289D306900F0981D /* AuthenticateStore.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		3B382BE7289D510800F0981D /* Keychain */ = {
+			isa = PBXGroup;
+			children = (
+				3B382BE0289D1F1500F0981D /* BiometricAuth.swift */,
+				3B382BE2289D20B200F0981D /* KeychainConfiguration.swift */,
+				3BAF6A27289C069100B4945A /* KeychainPasswordItem.swift */,
+			);
+			path = Keychain;
+			sourceTree = "<group>";
+		};
+		3B382BEB289D52EE00F0981D /* Wrappers */ = {
+			isa = PBXGroup;
+			children = (
+				3B382BE9289D52CD00F0981D /* UserDefaults.swift */,
+				3B33A3A728A39A950033DBF8 /* Publisher.swift */,
+			);
+			path = Wrappers;
+			sourceTree = "<group>";
+		};
+		3B382BEC289D52FD00F0981D /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				3B382BEB289D52EE00F0981D /* Wrappers */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		3B57B6A028AAE97A008DFCBD /* Steps */ = {
+			isa = PBXGroup;
+			children = (
+				3B57B6A228AAE9A1008DFCBD /* Pincode */,
+				3B57B6A128AAE992008DFCBD /* Password */,
+			);
+			path = Steps;
+			sourceTree = "<group>";
+		};
+		3B57B6A128AAE992008DFCBD /* Password */ = {
+			isa = PBXGroup;
+			children = (
+				3BAF6A1A289C05CB00B4945A /* EnterPasswordView.swift */,
+				3B382BEE289D5A8F00F0981D /* EnterPasswordViewModel.swift */,
+			);
+			path = Password;
+			sourceTree = "<group>";
+		};
+		3B57B6A228AAE9A1008DFCBD /* Pincode */ = {
+			isa = PBXGroup;
+			children = (
+				3BDF10E728A292F4002AD163 /* EnterPincodeView.swift */,
+				3B57B6A328AAE9C4008DFCBD /* EnterPincodeViewModel.swift */,
+			);
+			path = Pincode;
+			sourceTree = "<group>";
+		};
+		3BAF6A0C289C05CB00B4945A = {
+			isa = PBXGroup;
+			children = (
+				3BAF6A17289C05CB00B4945A /* FaceToLogin */,
+				3BAF6A16289C05CB00B4945A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		3BAF6A16289C05CB00B4945A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3BAF6A15289C05CB00B4945A /* FaceToLogin.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3BAF6A17289C05CB00B4945A /* FaceToLogin */ = {
+			isa = PBXGroup;
+			children = (
+				3B382BE7289D510800F0981D /* Keychain */,
+				3B382BE6289D50F200F0981D /* Auth */,
+				3BAF6A26289C05FB00B4945A /* Info.plist */,
+				3BAF6A18289C05CB00B4945A /* FaceToLoginApp.swift */,
+				3BAF6A1C289C05CC00B4945A /* Assets.xcassets */,
+				3BAF6A1E289C05CC00B4945A /* Preview Content */,
+				3B382BEC289D52FD00F0981D /* Extensions */,
+			);
+			path = FaceToLogin;
+			sourceTree = "<group>";
+		};
+		3BAF6A1E289C05CC00B4945A /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				3BAF6A1F289C05CC00B4945A /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		3BAF6A14289C05CB00B4945A /* FaceToLogin */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3BAF6A23289C05CC00B4945A /* Build configuration list for PBXNativeTarget "FaceToLogin" */;
+			buildPhases = (
+				3BAF6A11289C05CB00B4945A /* Sources */,
+				3BAF6A12289C05CB00B4945A /* Frameworks */,
+				3BAF6A13289C05CB00B4945A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FaceToLogin;
+			productName = FaceToLogin;
+			productReference = 3BAF6A15289C05CB00B4945A /* FaceToLogin.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3BAF6A0D289C05CB00B4945A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1330;
+				LastUpgradeCheck = 1330;
+				TargetAttributes = {
+					3BAF6A14289C05CB00B4945A = {
+						CreatedOnToolsVersion = 13.3;
+					};
+				};
+			};
+			buildConfigurationList = 3BAF6A10289C05CB00B4945A /* Build configuration list for PBXProject "FaceToLogin" */;
+			compatibilityVersion = "Xcode 13.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 3BAF6A0C289C05CB00B4945A;
+			productRefGroup = 3BAF6A16289C05CB00B4945A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				3BAF6A14289C05CB00B4945A /* FaceToLogin */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		3BAF6A13289C05CB00B4945A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3BAF6A20289C05CC00B4945A /* Preview Assets.xcassets in Resources */,
+				3BAF6A1D289C05CC00B4945A /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3BAF6A11289C05CB00B4945A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3B57B6A428AAE9C4008DFCBD /* EnterPincodeViewModel.swift in Sources */,
+				3B382BEA289D52CD00F0981D /* UserDefaults.swift in Sources */,
+				3B57B69F28AAE49E008DFCBD /* AuthenticateStage.swift in Sources */,
+				3B382BE5289D306900F0981D /* AuthenticateStore.swift in Sources */,
+				3BAF6A28289C069100B4945A /* KeychainPasswordItem.swift in Sources */,
+				3BDF10E828A292F4002AD163 /* EnterPincodeView.swift in Sources */,
+				3BAF6A1B289C05CB00B4945A /* EnterPasswordView.swift in Sources */,
+				3B382BEF289D5A8F00F0981D /* EnterPasswordViewModel.swift in Sources */,
+				3BAF6A19289C05CB00B4945A /* FaceToLoginApp.swift in Sources */,
+				3B57B6A628AAEE83008DFCBD /* HomeEnterViewModel.swift in Sources */,
+				3B382BE1289D1F1500F0981D /* BiometricAuth.swift in Sources */,
+				3BDF10E628A1038F002AD163 /* HomeEnterView.swift in Sources */,
+				3B33A3A828A39A950033DBF8 /* Publisher.swift in Sources */,
+				3B382BE3289D20B200F0981D /* KeychainConfiguration.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		3BAF6A21289C05CC00B4945A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		3BAF6A22289C05CC00B4945A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		3BAF6A24289C05CC00B4945A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"FaceToLogin/Preview Content\"";
+				DEVELOPMENT_TEAM = 4H567BRJRC;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FaceToLogin/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = hy99ee.FaceToLogin;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		3BAF6A25289C05CC00B4945A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"FaceToLogin/Preview Content\"";
+				DEVELOPMENT_TEAM = 4H567BRJRC;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FaceToLogin/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = hy99ee.FaceToLogin;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3BAF6A10289C05CB00B4945A /* Build configuration list for PBXProject "FaceToLogin" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3BAF6A21289C05CC00B4945A /* Debug */,
+				3BAF6A22289C05CC00B4945A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3BAF6A23289C05CC00B4945A /* Build configuration list for PBXNativeTarget "FaceToLogin" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3BAF6A24289C05CC00B4945A /* Debug */,
+				3BAF6A25289C05CC00B4945A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 3BAF6A0D289C05CB00B4945A /* Project object */;
+}
