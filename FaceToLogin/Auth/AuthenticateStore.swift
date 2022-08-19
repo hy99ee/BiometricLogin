@@ -19,6 +19,28 @@ final class AuthenticateStore: ObservableObject {
             .receive(on: DispatchQueue.main)
             .subscribe(objectWillChange)
     }
+    
+    func login() -> AnyPublisher<Void, Never> {
+        let passwordItem = KeychainPasswordItem(service: KeychainConfiguration.serviceName,
+                                                account: "Hy99ee",
+                                                accessGroup: KeychainConfiguration.accessGroup)
+        try? passwordItem.savePassword("newPassword")
+        isLogin = true
+
+        return Just(()).eraseToAnyPublisher()
+    }
+    
+    
+    func logout() -> AnyPublisher<Void, Never> {
+        let passwordItem = KeychainPasswordItem(service: KeychainConfiguration.serviceName,
+                                                account: "Hy99ee",
+                                                accessGroup: KeychainConfiguration.accessGroup)
+
+        try? passwordItem.deleteItem()
+        isLogin = false
+
+        return Just(()).eraseToAnyPublisher()
+    }
 }
 
 enum AuthStoreConstants {

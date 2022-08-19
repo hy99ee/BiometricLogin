@@ -14,8 +14,6 @@ struct FaceToLoginApp: App {
         WindowGroup {
             HomeEnterView()
                 .environmentObject(HomeEnterViewModel())
-                .environmentObject(EnterPasswordViewModel(store: store))
-                .environmentObject(EnterPincodeViewModel())
         }
     }
 }

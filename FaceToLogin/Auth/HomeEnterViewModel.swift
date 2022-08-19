@@ -2,47 +2,52 @@ import Foundation
 import Combine
 
 class HomeEnterViewModel: ObservableObject {
-    @Published var store: AuthenticateStore
-
-    @Published var internalStage: AuthenticateStage
-    let externalStage = PassthroughSubject<AuthenticateStage, Never>()
-
+    @Published var stage: Stage
     @Published var isPresented = true
+    @Published private var store: AuthenticateStore
+
+    let pincodeViewModel: EnterPincodeViewModel
+    let passwordViewModel: EnterPasswordViewModel
     
     private var anyCancellables: Set<AnyCancellable> = []
-    
+
     init() {
         let store = AuthenticateStore()
         self.store = store
-        internalStage = store.isLogin ? .startPincode : .startPassword
+        stage = store.isLogin ? PincodeStage.start : PasswordStage.start
 
-        externalStage
-            .map { [unowned self] in emitNextStage($0) }
-            .compactMap { $0 }
-            .receive(on: DispatchQueue.main)
-            .assign(to: &$internalStage)
+        pincodeViewModel = EnterPincodeViewModel(store: store)
+        passwordViewModel = EnterPasswordViewModel(store: store)
 
+        setupBindings()
+    }
+    
+    private func setupBindings() {
         store.objectWillChange
             .sink { [unowned self] _ in objectWillChange.send() }
             .store(in: &anyCancellables)
+
+        passwordViewModel.$stage
+            .compactMap {  [unowned self] in transformStage($0) }
+            .receive(on: DispatchQueue.main)
+            .assign(to: &$stage)
+
+        pincodeViewModel.$stage
+            .compactMap {  [unowned self] in transformStage($0) }
+            .receive(on: DispatchQueue.main)
+            .assign(to: &$stage)
     }
     
-    private func emitNextStage(_ stage: AuthenticateStage) -> AuthenticateStage? {
+    private func transformStage(_ stage: Stage) -> Stage? {
         switch stage {
-        case .startPassword:
-            return nil
+        case PasswordStage.finish:
+            return PincodeStage.start
 
-        case .finishPassword:
-            return .startPincode
+        case PincodeStage.logout:
+            return PasswordStage.start
 
-        case .startPincode:
-            return nil
-
-        case .finishPincode:
-            return .authSeccuss
-
-        case .authSeccuss:
-            return nil
+        default:
+            return stage
         }
     }
 }

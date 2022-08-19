@@ -8,24 +8,10 @@ struct EnterPasswordView: View {
     private var anyCancellable: AnyCancellable? = nil
 
     var body: some View {
-        HStack {
-
-
-            Spacer()
-            Button("Close") {
-//                presentationMode.wrappedValue.dismiss()
-            }
-            .padding()
-        }
-        Spacer()
-        
-
         VStack {
             Button("Save") {
-                viewModel.saveUser()
+                viewModel.loginRequest.send(())
             }
-            .padding()
-
         }
     }
 }

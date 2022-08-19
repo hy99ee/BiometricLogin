@@ -16,6 +16,7 @@
 		3B57B69F28AAE49E008DFCBD /* AuthenticateStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B57B69E28AAE49E008DFCBD /* AuthenticateStage.swift */; };
 		3B57B6A428AAE9C4008DFCBD /* EnterPincodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B57B6A328AAE9C4008DFCBD /* EnterPincodeViewModel.swift */; };
 		3B57B6A628AAEE83008DFCBD /* HomeEnterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B57B6A528AAEE83008DFCBD /* HomeEnterViewModel.swift */; };
+		3B57B6A828AE9479008DFCBD /* StageableViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B57B6A728AE9479008DFCBD /* StageableViewModelType.swift */; };
 		3BAF6A19289C05CB00B4945A /* FaceToLoginApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAF6A18289C05CB00B4945A /* FaceToLoginApp.swift */; };
 		3BAF6A1B289C05CB00B4945A /* EnterPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAF6A1A289C05CB00B4945A /* EnterPasswordView.swift */; };
 		3BAF6A1D289C05CC00B4945A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3BAF6A1C289C05CC00B4945A /* Assets.xcassets */; };
@@ -35,6 +36,7 @@
 		3B57B69E28AAE49E008DFCBD /* AuthenticateStage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticateStage.swift; sourceTree = "<group>"; };
 		3B57B6A328AAE9C4008DFCBD /* EnterPincodeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterPincodeViewModel.swift; sourceTree = "<group>"; };
 		3B57B6A528AAEE83008DFCBD /* HomeEnterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeEnterViewModel.swift; sourceTree = "<group>"; };
+		3B57B6A728AE9479008DFCBD /* StageableViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageableViewModelType.swift; sourceTree = "<group>"; };
 		3BAF6A15289C05CB00B4945A /* FaceToLogin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FaceToLogin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BAF6A18289C05CB00B4945A /* FaceToLoginApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceToLoginApp.swift; sourceTree = "<group>"; };
 		3BAF6A1A289C05CB00B4945A /* EnterPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterPasswordView.swift; sourceTree = "<group>"; };
@@ -63,7 +65,6 @@
 				3B57B6A028AAE97A008DFCBD /* Steps */,
 				3BDF10E528A1038F002AD163 /* HomeEnterView.swift */,
 				3B57B6A528AAEE83008DFCBD /* HomeEnterViewModel.swift */,
-				3B57B69E28AAE49E008DFCBD /* AuthenticateStage.swift */,
 				3B382BE4289D306900F0981D /* AuthenticateStore.swift */,
 			);
 			path = Auth;
@@ -99,6 +100,7 @@
 		3B57B6A028AAE97A008DFCBD /* Steps */ = {
 			isa = PBXGroup;
 			children = (
+				3B57B6A928AE94A8008DFCBD /* Stage */,
 				3B57B6A228AAE9A1008DFCBD /* Pincode */,
 				3B57B6A128AAE992008DFCBD /* Password */,
 			);
@@ -121,6 +123,15 @@
 				3B57B6A328AAE9C4008DFCBD /* EnterPincodeViewModel.swift */,
 			);
 			path = Pincode;
+			sourceTree = "<group>";
+		};
+		3B57B6A928AE94A8008DFCBD /* Stage */ = {
+			isa = PBXGroup;
+			children = (
+				3B57B69E28AAE49E008DFCBD /* AuthenticateStage.swift */,
+				3B57B6A728AE9479008DFCBD /* StageableViewModelType.swift */,
+			);
+			path = Stage;
 			sourceTree = "<group>";
 		};
 		3BAF6A0C289C05CB00B4945A = {
@@ -231,6 +242,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B57B6A828AE9479008DFCBD /* StageableViewModelType.swift in Sources */,
 				3B57B6A428AAE9C4008DFCBD /* EnterPincodeViewModel.swift in Sources */,
 				3B382BEA289D52CD00F0981D /* UserDefaults.swift in Sources */,
 				3B57B69F28AAE49E008DFCBD /* AuthenticateStage.swift in Sources */,
