@@ -1,17 +1,17 @@
 import Foundation
 
-protocol Stage {
+protocol State {
     var value: Int { get }
 }
 
-extension Stage {
-    static func == (lhs: Stage, rhs: Stage) -> Bool {
+extension State {
+    static func == (lhs: State, rhs: State) -> Bool {
        lhs.value == rhs.value
     }
 }
 
 
-enum PincodeStage: Int, Stage {
+enum PincodeState: Int, State {
     case start
     case finish
     case logout
@@ -21,7 +21,7 @@ enum PincodeStage: Int, Stage {
     }
 }
 
-enum PasswordStage: Int, Stage {
+enum PasswordState: Int, State {
     case start
     case finish
     

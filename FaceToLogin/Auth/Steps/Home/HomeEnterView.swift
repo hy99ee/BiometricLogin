@@ -11,10 +11,10 @@ struct HomeEnterView: View {
     
     @ViewBuilder
     private func loginTypeView() -> some View {
-        switch viewModel.stage {
-        case PincodeStage.start:
+        switch viewModel.state {
+        case PincodeState.start:
             EnterPincodeView().environmentObject(viewModel.pincodeViewModel)
-        case PasswordStage.start:
+        case PasswordState.start:
             EnterPasswordView().environmentObject(viewModel.passwordViewModel)
         default: ProgressView()
         }

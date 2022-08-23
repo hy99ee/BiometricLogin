@@ -46,13 +46,11 @@ final class AuthenticateStore: ObservableObject {
 enum AuthStoreConstants {
     case username
     case isLogin
-//    case isSeccussAuth
 
     var key: String {
         switch self {
         case .username: return "user_username"
         case .isLogin: return "user_is_login"
-//        case .isSeccussAuth: return "user_is_seccess_auth"
         }
     }
 }

@@ -6,9 +6,9 @@ enum PincodeActions: String {
     case logout
 }
 
-final class EnterPincodeViewModel: StageableVieModel {
-    typealias StageType = PincodeStage
-    @Published var stage: StageType = .start
+final class EnterPincodeViewModel: ObservableObject {
+    typealias StateType = PincodeState
+    @Published var state: StateType = .start
 
     @Published var pinsVisible: String = ""
 
@@ -35,15 +35,15 @@ final class EnterPincodeViewModel: StageableVieModel {
         authenticateRequest
             .flatMap { [unowned self] in biometric.authenticateUser() }
             .filter { $0 }
-            .map { _ in PincodeStage.finish }
+            .map { _ in PincodeState.finish }
             .receive(on: DispatchQueue.main)
-            .assign(to: &$stage)
+            .assign(to: &$state)
 
         logoutRequest
             .flatMap { [unowned self] in self.store.logout() }
-            .map { _ in PincodeStage.logout }
+            .map { _ in PincodeState.logout }
             .receive(on: DispatchQueue.main)
-            .assign(to: &$stage)
+            .assign(to: &$state)
 
         numberClick
             .sink {[unowned self] _ in

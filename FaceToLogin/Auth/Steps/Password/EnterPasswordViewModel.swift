@@ -2,9 +2,9 @@ import Foundation
 import SwiftUI
 import Combine
 
-final class EnterPasswordViewModel: StageableVieModel {
-    typealias StageType = PasswordStage
-    @Published var stage: StageType = .start
+final class EnterPasswordViewModel: ObservableObject {
+    typealias StateType = PasswordState
+    @Published var state: StateType = .start
     
     private let store: AuthenticateStore
 
@@ -17,9 +17,9 @@ final class EnterPasswordViewModel: StageableVieModel {
 
         loginRequest
             .flatMap { [unowned self] in self.store.login() }
-            .map { _ in PasswordStage.finish }
+            .map { _ in PasswordState.finish }
             .receive(on: DispatchQueue.main)
-            .assign(to: &$stage)
+            .assign(to: &$state)
     }
 
 }

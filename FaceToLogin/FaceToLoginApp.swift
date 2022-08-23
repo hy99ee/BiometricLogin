@@ -13,7 +13,7 @@ struct FaceToLoginApp: App {
     var body: some Scene {
         WindowGroup {
             HomeEnterView()
-                .environmentObject(HomeEnterViewModel())
+                .environmentObject(HomeEnterViewModel(mapper: HomeStateMapper()))
         }
     }
 }

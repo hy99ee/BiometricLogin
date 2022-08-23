@@ -1,20 +1,24 @@
 import Foundation
 import Combine
 
-class HomeEnterViewModel: ObservableObject {
-    @Published var stage: Stage
+class HomeEnterViewModel: ObservableObject, WithStateMapper {
+    @Published var state: State
     @Published var isPresented = true
     @Published private var store: AuthenticateStore
 
     let pincodeViewModel: EnterPincodeViewModel
     let passwordViewModel: EnterPasswordViewModel
-    
+
+    let stateMapper: StateMapper
+
     private var anyCancellables: Set<AnyCancellable> = []
 
-    init() {
+    init(mapper: StateMapper) {
+        self.stateMapper = mapper
+
         let store = AuthenticateStore()
         self.store = store
-        stage = store.isLogin ? PincodeStage.start : PasswordStage.start
+        state = store.isLogin ? PincodeState.start : PasswordState.start
 
         pincodeViewModel = EnterPincodeViewModel(store: store)
         passwordViewModel = EnterPasswordViewModel(store: store)
@@ -27,27 +31,16 @@ class HomeEnterViewModel: ObservableObject {
             .sink { [unowned self] _ in objectWillChange.send() }
             .store(in: &anyCancellables)
 
-        passwordViewModel.$stage
-            .compactMap {  [unowned self] in transformStage($0) }
+        passwordViewModel.$state
+            .mapState(mapper: stateMapper)
             .receive(on: DispatchQueue.main)
-            .assign(to: &$stage)
+            .assign(to: &$state)
 
-        pincodeViewModel.$stage
-            .compactMap {  [unowned self] in transformStage($0) }
+        pincodeViewModel.$state
+            .mapState(mapper: stateMapper)
             .receive(on: DispatchQueue.main)
-            .assign(to: &$stage)
+            .assign(to: &$state)
     }
     
-    private func transformStage(_ stage: Stage) -> Stage? {
-        switch stage {
-        case PasswordStage.finish:
-            return PincodeStage.start
 
-        case PincodeStage.logout:
-            return PasswordStage.start
-
-        default:
-            return stage
-        }
-    }
 }
