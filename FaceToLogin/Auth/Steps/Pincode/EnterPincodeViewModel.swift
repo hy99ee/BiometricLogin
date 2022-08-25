@@ -1,16 +1,19 @@
 import Foundation
 import Combine
 
-enum PincodeActions: String {
-    case login
-    case logout
-}
-
-final class EnterPincodeViewModel: ObservableObject {
+final class EnterPincodeViewModel: StateSender, ObservableObject {
     typealias StateType = PincodeState
     @Published var state: StateType = .start
 
+    var stateSubject: PassthroughSubject<StateType, Never> = .init()
+
+    let pincode: PassthroughSubject<String, Never> = .init()
+
     @Published var pinsVisible: String = ""
+
+    private let maxCount = 4
+    private var currentCount = 0
+    private var currentPincode = ""
 
     private let store: AuthenticateStore
 
@@ -31,6 +34,10 @@ final class EnterPincodeViewModel: ObservableObject {
 
     init(store: AuthenticateStore) {
         self.store = store
+        
+        $state
+            .sink { [unowned self] in stateSubject.send($0) }
+            .store(in: &anyCancellables)
 
         authenticateRequest
             .flatMap { [unowned self] in biometric.authenticateUser() }
@@ -46,10 +53,37 @@ final class EnterPincodeViewModel: ObservableObject {
             .assign(to: &$state)
 
         numberClick
-            .sink {[unowned self] _ in
-                pinsVisible += "⚫️"
+            .compactMap { [unowned self] number -> String? in
+                currentPincode += String(number)
+                if currentPincode.count == maxCount {
+                    self.pincode.send(currentPincode)
+                } else if currentPincode.count > maxCount {
+                    return nil
+                }
+                return currentPincode
             }
+            .print("+++")
+            .map {
+                var visible = ""
+                for _ in $0 {
+                    visible.append(contentsOf: " ● ")
+                }
+                return visible
+            }
+            .assign(to: &$pinsVisible)
+
+        pincode
+            .sink { [unowned self] _ in self.state = .request(status: true) }
             .store(in: &anyCancellables)
+        
+        pincode
+            .delay(for: 3, scheduler: RunLoop.main)
+            .map { [unowned self] _ in
+                self.state = .request(status: false)
+                self.currentPincode = ""
+                return self.currentPincode
+            }
+            .assign(to: &$pinsVisible)
     }
 
     func createButtonAction(_ str: String) -> () -> Void {

@@ -14,4 +14,3 @@ extension Publisher where Output: State, Failure == Never {
         self.map { mapper.mapState($0) }.compactMap { $0 }
     }
 }
-

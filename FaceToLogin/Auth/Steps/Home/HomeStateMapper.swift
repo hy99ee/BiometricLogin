@@ -10,7 +10,7 @@ class HomeStateMapper: StateMapper {
             return PasswordState.start
 
         default:
-            return state
+            return state.externalValue
         }
     }
 }

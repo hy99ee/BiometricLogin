@@ -13,9 +13,9 @@ struct HomeEnterView: View {
     private func loginTypeView() -> some View {
         switch viewModel.state {
         case PincodeState.start:
-            EnterPincodeView().environmentObject(viewModel.pincodeViewModel)
+            EnterPincodeView().environmentObject(EnterPincodeViewModel(store: viewModel.store).bindState(to: viewModel))
         case PasswordState.start:
-            EnterPasswordView().environmentObject(viewModel.passwordViewModel)
+            EnterPasswordView().environmentObject(EnterPasswordViewModel(store: viewModel.store).bindState(to: viewModel))
         default: ProgressView()
         }
     }

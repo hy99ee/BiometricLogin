@@ -1,13 +1,18 @@
 import Foundation
 import Combine
 
-class HomeEnterViewModel: ObservableObject, WithStateMapper {
-    @Published var state: State
-    @Published var isPresented = true
-    @Published private var store: AuthenticateStore
+class HomeEnterViewModel: ObservableObject, StateReciever {
+    var statePublisher: Published<State>.Publisher {
+        get { $state }
+        set { $state = newValue }
+    }
 
-    let pincodeViewModel: EnterPincodeViewModel
-    let passwordViewModel: EnterPasswordViewModel
+    var statePublished: Published<State> { _state }
+
+    @Published var state: State
+
+    @Published var isPresented = true
+    @Published var store: AuthenticateStore
 
     let stateMapper: StateMapper
 
@@ -18,29 +23,18 @@ class HomeEnterViewModel: ObservableObject, WithStateMapper {
 
         let store = AuthenticateStore()
         self.store = store
-        state = store.isLogin ? PincodeState.start : PasswordState.start
 
-        pincodeViewModel = EnterPincodeViewModel(store: store)
-        passwordViewModel = EnterPasswordViewModel(store: store)
+        state = store.isLogin ? PincodeState.start : PasswordState.start
 
         setupBindings()
     }
     
     private func setupBindings() {
         store.objectWillChange
-            .sink { [unowned self] _ in objectWillChange.send() }
+            .sink { [unowned self] _ in
+                state = store.isLogin ? PincodeState.start : PasswordState.start
+                objectWillChange.send()
+            }
             .store(in: &anyCancellables)
-
-        passwordViewModel.$state
-            .mapState(mapper: stateMapper)
-            .receive(on: DispatchQueue.main)
-            .assign(to: &$state)
-
-        pincodeViewModel.$state
-            .mapState(mapper: stateMapper)
-            .receive(on: DispatchQueue.main)
-            .assign(to: &$state)
     }
-    
-
 }
