@@ -4,7 +4,7 @@ import Combine
 final class AuthenticateStore: ObservableObject {
     let objectWillChange = PassthroughSubject<Void, Never>()
 
-    @UserDefault(key: AuthStoreConstants.username.key, defaultValue: "")
+    @UserDefault(key: AuthStoreConstants.username.key, defaultValue: "default")
     var username: String
 
     @UserDefault(key: AuthStoreConstants.isLogin.key, defaultValue: false)

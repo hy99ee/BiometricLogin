@@ -4,6 +4,7 @@ import Combine
 final class EnterPincodeViewModel: StateSender, ObservableObject {
     typealias StateType = PincodeState
     @Published var state: StateType = .start
+    @Published var store: AuthenticateStore
 
     var stateSubject: PassthroughSubject<StateType, Never> = .init()
 
@@ -15,11 +16,9 @@ final class EnterPincodeViewModel: StateSender, ObservableObject {
     private var currentCount = 0
     private var currentPincode = ""
 
-    private let store: AuthenticateStore
-
-    private let authenticateRequest = PassthroughSubject<Void, Never>()
-    private let logoutRequest = PassthroughSubject<Void, Never>()
-
+    let authenticateRequest = PassthroughSubject<Void, Never>()
+    let logoutRequest = PassthroughSubject<Void, Never>()
+    let removeClick = PassthroughSubject<Void, Never>()
     let numberClick = PassthroughSubject<Int, Never>()
 
     private let biometric = BiometricIDAuth()
@@ -46,6 +45,22 @@ final class EnterPincodeViewModel: StateSender, ObservableObject {
             .receive(on: DispatchQueue.main)
             .assign(to: &$state)
 
+        removeClick
+            .compactMap { [unowned self] _ -> String in
+                if currentPincode.count > 0 {
+                    self.currentPincode.removeLast()
+                }
+                return currentPincode
+            }
+            .map {
+                var visible = ""
+                for _ in $0 {
+                    visible.append(contentsOf: " ● ")
+                }
+                return visible
+            }
+            .assign(to: &$pinsVisible)
+        
         logoutRequest
             .flatMap { [unowned self] in self.store.logout() }
             .map { _ in PincodeState.logout }
@@ -62,7 +77,6 @@ final class EnterPincodeViewModel: StateSender, ObservableObject {
                 }
                 return currentPincode
             }
-            .print("+++")
             .map {
                 var visible = ""
                 for _ in $0 {
@@ -85,13 +99,6 @@ final class EnterPincodeViewModel: StateSender, ObservableObject {
             }
             .assign(to: &$pinsVisible)
     }
-
-    func createButtonAction(_ str: String) -> () -> Void {
-        switch str {
-        case PincodeActions.login.rawValue: return {[weak self] in self?.authenticateRequest.send() }
-        case PincodeActions.logout.rawValue: return {[weak self] in self?.logoutRequest.send() }
-        default: return { [weak self] in if let number = Int(str) { self?.numberClick.send(number) } }
-        }
-    }
     
+    var canEvaluatePolicy: Bool { biometric.canEvaluatePolicy() }
 }
