@@ -11,15 +11,16 @@ struct EnterPincodeView: View {
     var body: some View {
         VStack {
             VStack {
-                Spacer(minLength: 100)
+                Spacer()
                 Image(systemName: "gear")
                     .font(.system(size: 50))
                 Text(viewModel.store.username)
                     .padding(3)
-                    .font(.system(size: 24))
+                    .font(.system(size: 20))
                     .foregroundColor(.init(white: 0.35))
+                    .textCase(.uppercase)
         
-                Spacer()
+                
                 Text(viewModel.pinsVisible)
                     .font(.system(size: 33))
                     .scaleEffect(isAnimating ? 1.1 : 1)
@@ -28,6 +29,7 @@ struct EnterPincodeView: View {
                     .foregroundColor(primaryColor)
                 Spacer()
             }
+            .padding()
             
             VStack {
                 ForEach(viewModel.rows, id: \.self) { row in
@@ -71,8 +73,8 @@ struct EnterPincodeView: View {
     @ViewBuilder
     private func numbersLabels(_ str: String) -> some View {
         switch str {
-        case PincodeActions.logout.rawValue: Text("exit").font(.system(size: 22))
-        case PincodeActions.login.rawValue: Image(systemName: viewModel.pinsVisible.isEmpty ? { viewModel.canEvaluatePolicy ? "face.smiling" : "" }() : "chevron.backward" ).font(.system(size: 30))
+        case PincodeActions.logout.rawValue: Image(systemName: "house").font(.system(size: 25))
+        case PincodeActions.login.rawValue: Image(systemName: viewModel.pinsVisible.isEmpty ? { viewModel.canEvaluatePolicy ? "face.smiling" : "" }() : "chevron.backward" ).font(.system(size: 27))
         default: Text(str).font(.system(size: 40))
         }
     }
