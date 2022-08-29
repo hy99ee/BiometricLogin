@@ -2,19 +2,19 @@ import Foundation
 import Combine
 
 class HomeEnterViewModel: ObservableObject, StateReciever {
-    var statePublisher: Published<State>.Publisher {
+    var statePublisher: Published<StateType>.Publisher {
         get { $state }
         set { $state = newValue }
     }
 
-    var statePublished: Published<State> { _state }
+    var statePublished: Published<StateType> { _state }
 
-    @Published var state: State
+    @Published var state: StateType
 
     @Published var isPresented = true
     @Published var store: AuthenticateStore
 
-    let stateMapper: StateMapper
+    let stateMapper: StateMapper?
 
     private var anyCancellables: Set<AnyCancellable> = []
 

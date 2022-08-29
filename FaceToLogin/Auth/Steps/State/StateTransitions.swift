@@ -2,8 +2,8 @@ import Foundation
 import Combine
 
 protocol StateSender {
-    associatedtype StateType: State
-    var stateSubject: PassthroughSubject<StateType, Never> { get }
+    associatedtype StateTypeSender: StateType
+    var stateSubject: PassthroughSubject<StateTypeSender, Never> { get }
 
     func bindState<T: StateReciever>(to reciever: T) -> Self
 }
@@ -20,7 +20,7 @@ extension StateSender {
 }
 
 protocol StateReciever: ObservableObject, WithStateMapper {
-    var statePublished: Published<State> { get }
-    var statePublisher: Published<State>.Publisher { get set }
+    var statePublished: Published<StateType> { get }
+    var statePublisher: Published<StateType>.Publisher { get set }
 }
 

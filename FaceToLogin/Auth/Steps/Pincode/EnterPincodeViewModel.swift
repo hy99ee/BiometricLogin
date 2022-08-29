@@ -2,11 +2,11 @@ import Foundation
 import Combine
 
 final class EnterPincodeViewModel: StateSender, ObservableObject {
-    typealias StateType = PincodeState
-    @Published var state: StateType = .start
+    typealias StateTypeSender = PincodeState
+    @Published var state: StateTypeSender = .enterStart
     @Published var store: AuthenticateStore
 
-    var stateSubject: PassthroughSubject<StateType, Never> = .init()
+    var stateSubject: PassthroughSubject<StateTypeSender, Never> = .init()
 
     let pincode: PassthroughSubject<String, Never> = .init()
 
@@ -35,6 +35,7 @@ final class EnterPincodeViewModel: StateSender, ObservableObject {
         self.store = store
         
         $state
+            .print("Enter View Model state: ")
             .sink { [unowned self] in stateSubject.send($0) }
             .store(in: &anyCancellables)
 
@@ -62,7 +63,7 @@ final class EnterPincodeViewModel: StateSender, ObservableObject {
             .assign(to: &$pinsVisible)
         
         logoutRequest
-            .flatMap { [unowned self] in self.store.logout() }
+//            .flatMap { [unowned self] in self.store.logout() }
             .map { _ in PincodeState.logout }
             .receive(on: DispatchQueue.main)
             .assign(to: &$state)

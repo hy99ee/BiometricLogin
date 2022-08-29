@@ -3,8 +3,8 @@ import Combine
 
 struct EnterPincodeView: View {
     @EnvironmentObject var viewModel: EnterPincodeViewModel
-    @SwiftUI.State var pinsSize = 35.0
-    @SwiftUI.State var isAnimating = false
+    @State var pinsSize = 35.0
+    @State var isAnimating = false
     
     private let primaryColor = Color.init(red: 0, green: 116/255, blue: 178/255, opacity: 1.0)
     
