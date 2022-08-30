@@ -3,10 +3,10 @@ import SwiftUI
 import Combine
 
 final class EnterPasswordViewModel: StateSender, ObservableObject {
-    typealias StateTypeSender = PasswordState
-    @Published var state: StateTypeSender = .start
+    typealias SenderStateType = PasswordState
+    @Published var state: SenderStateType = .start
 
-    var stateSubject: PassthroughSubject<StateTypeSender, Never> = .init()
+    var stateSubject: PassthroughSubject<SenderStateType, Never> = .init()
 
     private let store: AuthenticateStore
 

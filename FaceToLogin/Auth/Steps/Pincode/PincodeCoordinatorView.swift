@@ -18,11 +18,11 @@ struct PincodeCoordinatorView: View {
     @ViewBuilder
     func view() -> some View {
         switch viewModel.state {
-        case PincodeState.enterStart:
+        case EnterPincodeState.start:
             EnterPincodeView().environmentObject(EnterPincodeViewModel(store: viewModel.store).bindState(to: viewModel))
-        case PincodeState.createStart:
-            Text("PincodeState.createStart")
-        default: ProgressView()
+        case CreatePincodeState.start:
+            CreatePincodeView().environmentObject(CreatePincodeViewModel().bindState(to: viewModel))
+        default: ProgressView().background(.blue)
         }
     }
 }

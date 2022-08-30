@@ -2,8 +2,8 @@ import Foundation
 import Combine
 
 class PincodeCoordinatorViewModel: StateSender, StateReciever, ObservableObject {
-    typealias StateTypeSender = PincodeState
-    var stateSubject: PassthroughSubject<StateTypeSender, Never>  = .init()
+    typealias SenderStateType = PincodeState
+    var stateSubject: PassthroughSubject<SenderStateType, Never>  = .init()
     @Published var state: StateType
  
     var statePublisher: Published<StateType>.Publisher {
@@ -21,11 +21,10 @@ class PincodeCoordinatorViewModel: StateSender, StateReciever, ObservableObject 
     init(store: AuthenticateStore) {
         self.store = store
         self.stateMapper = PincodeStateMapper(store: store)
-        state = stateMapper!.mapState(StateTypeSender.start)!
+        state = stateMapper!.mapState(SenderStateType.start)!
 
         $state
-            .compactMap{ $0 as? StateTypeSender }
-            .print()
+            .compactMap{ $0 as? SenderStateType }
             .sink {[unowned self] in stateSubject.send($0) }
             .store(in: &anyCancellables)
     }

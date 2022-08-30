@@ -12,7 +12,7 @@ class HomeEnterViewModel: ObservableObject, StateReciever {
     @Published var state: StateType
 
     @Published var isPresented = true
-    @Published var store: AuthenticateStore
+    let store: AuthenticateStore
 
     let stateMapper: StateMapper?
 
@@ -21,20 +21,7 @@ class HomeEnterViewModel: ObservableObject, StateReciever {
     init(mapper: StateMapper) {
         self.stateMapper = mapper
 
-        let store = AuthenticateStore()
-        self.store = store
-
+        store = AuthenticateStore()
         state = store.isLogin ? PincodeState.start : PasswordState.start
-
-        setupBindings()
-    }
-    
-    private func setupBindings() {
-        store.objectWillChange
-            .sink { [unowned self] _ in
-                state = store.isLogin ? PincodeState.start : PasswordState.start
-                objectWillChange.send()
-            }
-            .store(in: &anyCancellables)
     }
 }

@@ -7,22 +7,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "A7CA2D4D-4CB8-4EA8-89E6-F18E022F6F6B"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FaceToLogin/Auth/Steps/Pincode/PincodeCoordinatorView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "20"
-            endingLineNumber = "20"
-            landmarkName = "view()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "1378CC44-0F6E-4A96-9EEB-CA27FDF37AA8"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -39,32 +23,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "D95BE409-BB1D-4C70-B909-8BF6E5775BFC"
+            uuid = "C174163C-89A3-41B8-A59C-3AFCBBED202E"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "FaceToLogin/Auth/Steps/Pincode/PincodeStateMapper.swift"
+            filePath = "FaceToLogin/Auth/Steps/Pincode/PincodeCoordinatorView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "15"
-            endingLineNumber = "15"
-            landmarkName = "pincodeMapState(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "08BF9B4F-4002-4D59-A652-59700515E242"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FaceToLogin/Auth/Steps/Home/HomeEnterView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "14"
-            endingLineNumber = "14"
-            landmarkName = "loginTypeView()"
+            startingLineNumber = "21"
+            endingLineNumber = "21"
+            landmarkName = "view()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

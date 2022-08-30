@@ -47,7 +47,7 @@ struct EnterPincodeView: View {
             .onReceive(viewModel.$state) { value in
                 withAnimation(isAnimating ? Animation.default : .easeInOut(duration: 0.5).repeatForever()) {
                     isAnimating = {
-                        if case let PincodeState.request(status) = value {
+                        if case let EnterPincodeState.request(status) = value {
                             return status ? true : false
                         } else {
                             return false

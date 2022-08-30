@@ -2,8 +2,8 @@ import Foundation
 import Combine
 
 protocol StateSender {
-    associatedtype StateTypeSender: StateType
-    var stateSubject: PassthroughSubject<StateTypeSender, Never> { get }
+    associatedtype SenderStateType: StateType
+    var stateSubject: PassthroughSubject<SenderStateType, Never> { get }
 
     func bindState<T: StateReciever>(to reciever: T) -> Self
 }
