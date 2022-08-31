@@ -4,7 +4,7 @@ import Combine
 final class AuthenticateStore: ObservableObject {
     let objectWillChange = PassthroughSubject<Void, Never>()
 
-    @UserDefault(key: AuthStoreConstants.username.key, defaultValue: "")
+    @UserDefault(key: AuthStoreConstants.username.key, defaultValue: "default")
     var username: String
 
     @UserDefault(key: AuthStoreConstants.isLogin.key, defaultValue: false)
@@ -21,25 +21,32 @@ final class AuthenticateStore: ObservableObject {
     }
     
     func login() -> AnyPublisher<Void, Never> {
-        let passwordItem = KeychainPasswordItem(service: KeychainConfiguration.serviceName,
-                                                account: "Hy99ee",
-                                                accessGroup: KeychainConfiguration.accessGroup)
-        try? passwordItem.savePassword("newPassword")
-        isLogin = true
-
-        return Just(()).eraseToAnyPublisher()
+        Deferred {
+            Future { [unowned self] promise in
+                let passwordItem = KeychainPasswordItem(service: KeychainConfiguration.serviceName,
+                                                        account: "Hy99ee",
+                                                        accessGroup: KeychainConfiguration.accessGroup)
+                try? passwordItem.savePassword("newPassword")
+                isLogin = true
+                promise(.success(()))
+            }
+        }.eraseToAnyPublisher()
     }
     
     
     func logout() -> AnyPublisher<Void, Never> {
-        let passwordItem = KeychainPasswordItem(service: KeychainConfiguration.serviceName,
-                                                account: "Hy99ee",
-                                                accessGroup: KeychainConfiguration.accessGroup)
+        Deferred {
+            Future { [unowned self] promise in
+                
+                let passwordItem = KeychainPasswordItem(service: KeychainConfiguration.serviceName,
+                                                        account: "Hy99ee",
+                                                        accessGroup: KeychainConfiguration.accessGroup)
 
-        try? passwordItem.deleteItem()
-        isLogin = false
-
-        return Just(()).eraseToAnyPublisher()
+                try? passwordItem.deleteItem()
+                isLogin = false
+                promise(.success(()))
+            }
+        }.eraseToAnyPublisher()
     }
 }
 

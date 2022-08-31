@@ -1,4 +1,5 @@
-//import Combine
+import Combine
+import SwiftUI
 //
 //struct AnyObserver<Output, Failure: Error> {
 //    let onNext: ((Output) -> Void)
@@ -25,3 +26,13 @@
 //            .eraseToAnyPublisher()
 //    }
 //}
+
+extension CurrentValueSubject {
+  var binding: Binding<Output> {
+    Binding(get: {
+      self.value
+    }, set: {
+      self.send($0)
+    })
+  }
+}

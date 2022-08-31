@@ -3,7 +3,6 @@ import Combine
 
 struct EnterPasswordView: View {
     @EnvironmentObject var viewModel: EnterPasswordViewModel
-//    @Environment(\.presentationMode) var presentationMode
 
     private var anyCancellable: AnyCancellable? = nil
 
