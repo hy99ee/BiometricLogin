@@ -101,5 +101,11 @@ final class EnterPincodeViewModel: StateSender, ObservableObject {
             .assign(to: &$pinsVisible)
     }
     
-    var canEvaluatePolicy: Bool { biometric.canEvaluatePolicy() }
+    var biomitricTypeImage: String? {
+        switch biometric.biometricType {
+        case .none: return nil
+        case .faceID: return "faceid"
+        case .touchID: return "touchid"
+        }
+    }
 }

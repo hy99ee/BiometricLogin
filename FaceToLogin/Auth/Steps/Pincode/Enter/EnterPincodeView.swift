@@ -74,7 +74,7 @@ struct EnterPincodeView: View {
     private func numbersLabels(_ str: String) -> some View {
         switch str {
         case PincodeActions.logout.rawValue: Image(systemName: "house").font(.system(size: 25))
-        case PincodeActions.login.rawValue: Image(systemName: viewModel.pinsVisible.isEmpty ? { viewModel.canEvaluatePolicy ? "face.smiling" : "" }() : "chevron.backward" ).font(.system(size: 27))
+        case PincodeActions.login.rawValue: Image(systemName: viewModel.pinsVisible.isEmpty ? { viewModel.biomitricTypeImage ?? "" }() : "chevron.backward" ).font(.system(size: 30))
         default: Text(str).font(.system(size: 40))
         }
     }

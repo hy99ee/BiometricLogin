@@ -9,8 +9,8 @@ class CreatePincodeMapper: StateMapper {
             return CreatePincodeState.start
         case .finish:
             return CreatePincodeState.finish
-        case .request(let status):
-            return CreatePincodeState.request(status: status)
+        case .request(_):
+            return nil
         }
     }
     

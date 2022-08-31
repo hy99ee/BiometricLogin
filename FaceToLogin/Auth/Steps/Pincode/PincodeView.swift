@@ -3,13 +3,13 @@ import SwiftUI
 import Combine
 
 protocol CoordinatorViewType: View {
-    var viewModel: PincodeCoordinatorViewModel { get }
+    var viewModel: PincodeViewModel { get }
     
     func view() -> AnyView
 }
 
-struct PincodeCoordinatorView: View {
-    @EnvironmentObject var viewModel: PincodeCoordinatorViewModel
+struct PincodeView: View {
+    @EnvironmentObject var viewModel: PincodeViewModel
 
     var body: some View {
         view()

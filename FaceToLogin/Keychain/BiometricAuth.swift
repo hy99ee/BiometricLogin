@@ -8,43 +8,35 @@ enum BiometricType {
   case faceID
 }
 
-class BiometricIDAuth {
-  let context = LAContext()
-  var loginReason = "Logging in with Touch ID"
+protocol BiometricIDAuthType {
+    var context: LAContext { get }
+    var loginReason: String { get }
+    var biometricType: BiometricType { get }
 
-  func biometricType() -> BiometricType {
-    let _ = context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil)
-    switch context.biometryType {
-    case .none:
-      return .none
-    case .touchID:
-        return .touchID
-    case .faceID:
-        return .faceID
-    default: return .none
-    }
+    func authenticateUser() -> AnyPublisher<Bool, Never>
+    func checkLogin(username: String, password: String) -> AnyPublisher<Bool, Never>
+}
+
+class BiometricIDAuth: BiometricIDAuthType {
+  let context = LAContext()
+  let loginReason = "Logging in with Touch ID"
+
+    var biometricType: BiometricType {
+      guard context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) else { return .none }
+      switch context.biometryType {
+      case .none:
+          return .none
+      case .touchID:
+          return .touchID
+      case .faceID:
+          return .faceID
+      default: return .none
+      }
   }
     
-    func canEvaluatePolicy() -> Bool {
+    private func canEvaluatePolicy() -> Bool {
         return context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil)
     }
-//
-//    func authenticateUser() -> AnyPublisher<Bool, Error> {
-//        return Future<Bool, Error> { resolve in
-//            // start the request when someone subscribes
-//            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: loginReason) { (success, evaluateError) in
-//                // publish result on success
-//                resolve(.success(success))
-//            }, error: { error in
-//                // publish error on failure
-//                resolve(.failure(error))
-//            })
-//            // allow cancellation ???
-//        }
-//        context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: loginReason) { (success, evaluateError) in
-//
-//        }
-//    }
     
     func authenticateUser() -> AnyPublisher<Bool, Never> {
         Future<Bool, Never> { promise in
@@ -54,21 +46,22 @@ class BiometricIDAuth {
         }.eraseToAnyPublisher()
     }
     
-    func checkLogin(username: String, password: String) -> Bool {
-      guard username == UserDefaults.standard.value(forKey: username) as? String else {
-        return false
-      }
-      
-      do {
-        let passwordItem = KeychainPasswordItem(service: KeychainConfiguration.serviceName,
-                                                account: username,
-                                                accessGroup: KeychainConfiguration.accessGroup)
-        let keychainPassword = try passwordItem.readPassword()
-        return password == keychainPassword
-      }
-      catch {
-          return false
-//        fatalError("Error reading password from keychain - \(error)")
-      }
+    func checkLogin(username: String, password: String) -> AnyPublisher<Bool, Never> {
+        Future<Bool, Never> { promise in
+            guard username == UserDefaults.standard.value(forKey: username) as? String else {
+                return promise(.success(false))
+            }
+            
+            do {
+                let passwordItem = KeychainPasswordItem(service: KeychainConfiguration.serviceName,
+                                                        account: username,
+                                                        accessGroup: KeychainConfiguration.accessGroup)
+                let keychainPassword = try passwordItem.readPassword()
+                return promise(.success(password == keychainPassword))
+            }
+            catch {
+                return promise(.success(false))
+            }
+        }.eraseToAnyPublisher()
     }
 }

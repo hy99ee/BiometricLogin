@@ -1,7 +1,7 @@
 import Foundation
 import Combine
 
-class PincodeCoordinatorViewModel: StateSender, StateReciever, ObservableObject {
+class PincodeViewModel: StateSender, StateReciever, ObservableObject {
     typealias SenderStateType = PincodeState
     var stateSubject: PassthroughSubject<SenderStateType, Never>  = .init()
     @Published var state: StateType
