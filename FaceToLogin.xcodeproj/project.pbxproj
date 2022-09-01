@@ -17,6 +17,7 @@
 		3B57B6A428AAE9C4008DFCBD /* EnterPincodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B57B6A328AAE9C4008DFCBD /* EnterPincodeViewModel.swift */; };
 		3B57B6A628AAEE83008DFCBD /* HomeEnterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B57B6A528AAEE83008DFCBD /* HomeEnterViewModel.swift */; };
 		3B57B6A828AE9479008DFCBD /* StateTransitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B57B6A728AE9479008DFCBD /* StateTransitions.swift */; };
+		3B6E61EE28BFB79100BC310B /* PincodeFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6E61ED28BFB79100BC310B /* PincodeFieldView.swift */; };
 		3B6F1A8928B8ECF8006A508A /* Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6F1A8828B8ECF8006A508A /* Animations.swift */; };
 		3B7A4B8D28BCABFA00562115 /* PincodeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B7A4B8C28BCABFA00562115 /* PincodeState.swift */; };
 		3B7A4B8F28BCAC1700562115 /* EnterPasswordState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B7A4B8E28BCAC1700562115 /* EnterPasswordState.swift */; };
@@ -49,6 +50,7 @@
 		3B57B6A328AAE9C4008DFCBD /* EnterPincodeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterPincodeViewModel.swift; sourceTree = "<group>"; };
 		3B57B6A528AAEE83008DFCBD /* HomeEnterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeEnterViewModel.swift; sourceTree = "<group>"; };
 		3B57B6A728AE9479008DFCBD /* StateTransitions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateTransitions.swift; sourceTree = "<group>"; };
+		3B6E61ED28BFB79100BC310B /* PincodeFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PincodeFieldView.swift; sourceTree = "<group>"; };
 		3B6F1A8828B8ECF8006A508A /* Animations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animations.swift; sourceTree = "<group>"; };
 		3B7A4B8C28BCABFA00562115 /* PincodeState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PincodeState.swift; sourceTree = "<group>"; };
 		3B7A4B8E28BCAC1700562115 /* EnterPasswordState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterPasswordState.swift; sourceTree = "<group>"; };
@@ -150,6 +152,7 @@
 				3B7A4B9028BCAFED00562115 /* PincodeView.swift */,
 				3B7A4B9428BCB6EA00562115 /* PincodeViewModel.swift */,
 				3B7A4B9628BCC36800562115 /* PincodeStateMapper.swift */,
+				3B6E61ED28BFB79100BC310B /* PincodeFieldView.swift */,
 			);
 			path = Pincode;
 			sourceTree = "<group>";
@@ -328,6 +331,7 @@
 				3B7A4B8D28BCABFA00562115 /* PincodeState.swift in Sources */,
 				3BAF6A19289C05CB00B4945A /* FaceToLoginApp.swift in Sources */,
 				3B7A4B9B28BD068B00562115 /* CreatePincodeViewModel.swift in Sources */,
+				3B6E61EE28BFB79100BC310B /* PincodeFieldView.swift in Sources */,
 				3B7A4B8F28BCAC1700562115 /* EnterPasswordState.swift in Sources */,
 				3B6F1A8928B8ECF8006A508A /* Animations.swift in Sources */,
 				3B7A4B9528BCB6EA00562115 /* PincodeViewModel.swift in Sources */,

@@ -1,16 +1,17 @@
 import Foundation
 import Combine
+import SwiftUI
 
 final class EnterPincodeViewModel: StateSender, ObservableObject {
     typealias SenderStateType = EnterPincodeState
+
     @Published var state: SenderStateType = .start
     @Published var store: AuthenticateStore
+    @Published var pinsVisible: String = ""
 
     var stateSubject: PassthroughSubject<SenderStateType, Never> = .init()
 
     let pincode: PassthroughSubject<String, Never> = .init()
-
-    @Published var pinsVisible: String = ""
 
     private let maxCount = 4
     private var currentCount = 0
@@ -20,16 +21,10 @@ final class EnterPincodeViewModel: StateSender, ObservableObject {
     let logoutRequest = PassthroughSubject<Void, Never>()
     let removeClick = PassthroughSubject<Void, Never>()
     let numberClick = PassthroughSubject<Int, Never>()
+    
 
     private let biometric = BiometricIDAuth()
     private var anyCancellables: Set<AnyCancellable> = []
-
-    let rows = [
-        ["1", "2", "3"],
-        ["4", "5", "6"],
-        ["7", "8", "9"],
-        [PincodeActions.logout.rawValue, "0", PincodeActions.login.rawValue]
-    ]
 
     init(store: AuthenticateStore) {
         self.store = store

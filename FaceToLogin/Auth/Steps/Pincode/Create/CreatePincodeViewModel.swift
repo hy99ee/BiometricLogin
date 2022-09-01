@@ -1,22 +1,6 @@
 import Foundation
 import Combine
 
-class CreatePincodeMapper: StateMapper {
-    func mapState(_ state: StateType) -> StateType? {
-        guard let state = state as? EnterPincodeState else { return nil }
-        switch state {
-        case .start:
-            return CreatePincodeState.start
-        case .finish:
-            return CreatePincodeState.finish
-        case .request(_):
-            return nil
-        }
-    }
-    
-    
-}
-
 final class CreatePincodeViewModel: StateSender, StateReciever, ObservableObject {
     typealias SenderStateType = CreatePincodeState
 
@@ -29,7 +13,7 @@ final class CreatePincodeViewModel: StateSender, StateReciever, ObservableObject
     }
     var statePublished: Published<StateType> { _state }
 
-    var stateMapper: StateMapper? = CreatePincodeMapper()
+    var stateMapper: StateMapper?
 
     var stateSubject: PassthroughSubject<SenderStateType, Never> = .init()
 

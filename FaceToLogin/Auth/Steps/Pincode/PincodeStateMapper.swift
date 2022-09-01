@@ -37,6 +37,6 @@ class PincodeStateMapper: StateMapper {
     }
     
     private func isFirstLoginState() -> PincodeStateType {
-        self.store.isLogin ? CreatePincodeState.start : EnterPincodeState.start
+        !self.store.isLogin ? CreatePincodeState.start : EnterPincodeState.start
     }
 }
