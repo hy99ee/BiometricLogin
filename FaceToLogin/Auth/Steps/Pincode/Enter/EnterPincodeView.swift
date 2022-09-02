@@ -3,16 +3,15 @@ import Combine
 
 struct EnterPincodeView: View {
     @EnvironmentObject var viewModel: EnterPincodeViewModel
-    @State var pinsSize = 35.0
     @State var isAnimating = false
 
     @ViewBuilder
     private var rightButtonView: some View {
         if viewModel.pinsVisible.isEmpty, viewModel.biomitricTypeImage == nil { EmptyView() }
-        Image(systemName:
-                viewModel.pinsVisible.isEmpty ? viewModel.biomitricTypeImage! : "chevron.backward"
-        )
-        .font(.system(size: 30))
+        else {
+            Image(systemName: viewModel.pinsVisible.isEmpty ? viewModel.biomitricTypeImage! : "chevron.backward")
+                .font(.system(size: 30))
+        }
     }
 
     private var rightButton: PincodeFieldActionButton {(
@@ -30,7 +29,7 @@ struct EnterPincodeView: View {
     )}
 
     private var pincodeFieldConfiguration: PincodeActionButtonsConfiguration {
-        .init(rightButton: rightButton, leftButton: leftButton)
+        PincodeActionButtonsConfiguration.init(rightButton: rightButton, leftButton: leftButton)
     }
 
     var body: some View {
@@ -76,8 +75,8 @@ struct EnterPincodeView: View {
     }
 }
 
-struct EnterPincodeView_Previews: PreviewProvider {
-    static var previews: some View {
-        EnterPincodeView().environmentObject(EnterPincodeViewModel(store: AuthenticateStore()))
-    }
-}
+//struct EnterPincodeView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        EnterPincodeView().environmentObject(EnterPincodeViewModel(store: AuthenticateStore()))
+//    }
+//}

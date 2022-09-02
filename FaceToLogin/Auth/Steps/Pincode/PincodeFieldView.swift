@@ -66,13 +66,3 @@ struct PincodeFieldView: View {
         
     }
 }
-
-//struct PincodeFieldView_Previews: PreviewProvider {
-//
-//    static var previews: some View {
-//        let viewModel = EnterPincodeViewModel(store: AuthenticateStore())
-//        let view: EnterPincodeView = EnterPincodeView().environmentObject(viewModel) as! EnterPincodeView
-//
-//        return PincodeFieldView(isAnimation: view.$isAnimating, rows: viewModel.rows, createButton: view.createButton)
-//    }
-//}

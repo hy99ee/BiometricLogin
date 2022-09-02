@@ -1,29 +1,61 @@
 import Foundation
 import Combine
 
-final class CreatePincodeViewModel: StateSender, StateReciever, ObservableObject {
+final class CreatePincodeViewModel: StateSender, ObservableObject {
     typealias SenderStateType = CreatePincodeState
 
-    @Published var state: StateType = CreatePincodeState.start
+    @Published var state: SenderStateType = .start
     @Published var store: AuthenticateStore = AuthenticateStore()
     
-    var statePublisher: Published<StateType>.Publisher {
-        get { $state }
-        set { $state = newValue }
-    }
-    var statePublished: Published<StateType> { _state }
+    @Published var pinsVisible: String = ""
 
-    var stateMapper: StateMapper?
+    let stateSubject: PassthroughSubject<SenderStateType, Never> = .init()
 
-    var stateSubject: PassthroughSubject<SenderStateType, Never> = .init()
+    let pincodeRequest: PassthroughSubject<String, Never> = .init()
+
+    let numberClick: PassthroughSubject<Int, Never> = .init()
+    
+    private let maxCount = 4
+    private var currentCount = 0
+    private var currentPincode = ""
 
     private var anyCancellables: Set<AnyCancellable> = []
 
     init() {
         $state
-            .print("Сreate View Model state: ")
-            .compactMap{ $0 as? SenderStateType }
-            .sink {[unowned self] in stateSubject.send($0) }
+            .bindState(to: self)
             .store(in: &anyCancellables)
+        
+        numberClick
+            .compactMap { [unowned self] number -> String? in
+                currentPincode += String(number)
+                if currentPincode.count == maxCount {
+                    self.pincodeRequest.send(currentPincode)
+                } else if currentPincode.count > maxCount {
+                    return nil
+                }
+                return currentPincode
+            }
+            .map {
+                var visible = ""
+                for _ in $0 {
+                    visible.append(contentsOf: " ● ")
+                }
+                return visible
+            }
+            .assign(to: &$pinsVisible)
+        
+        pincodeRequest
+            .sink { [unowned self] _ in self.state = .request(status: true) }
+            .store(in: &anyCancellables)
+        
+        pincodeRequest
+            .delay(for: 3, scheduler: RunLoop.main)
+            .map { [unowned self] _ in
+                self.state = .request(status: false)
+                self.currentPincode = ""
+                return self.currentPincode
+            }
+            .assign(to: &$pinsVisible)
     }
 }

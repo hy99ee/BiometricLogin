@@ -1,6 +1,8 @@
 import Foundation
 import Combine
 
+protocol StateType {}
+
 protocol StateSender {
     associatedtype SenderStateType: StateType
     var stateSubject: PassthroughSubject<SenderStateType, Never> { get }
@@ -23,4 +25,3 @@ protocol StateReciever: ObservableObject, WithStateMapper {
     var statePublished: Published<StateType> { get }
     var statePublisher: Published<StateType>.Publisher { get set }
 }
-

@@ -3,8 +3,9 @@ import Combine
 
 class PincodeViewModel: StateSender, StateReciever, ObservableObject {
     typealias SenderStateType = PincodeState
-    var stateSubject: PassthroughSubject<SenderStateType, Never>  = .init()
+
     @Published var state: StateType
+    var stateSubject: PassthroughSubject<SenderStateType, Never>  = .init()
  
     var statePublisher: Published<StateType>.Publisher {
         get { $state }
@@ -13,19 +14,28 @@ class PincodeViewModel: StateSender, StateReciever, ObservableObject {
 
     var statePublished: Published<StateType> { _state }
 
-    var stateMapper: StateMapper?
+    let stateMapper: StateMapper?
     let store: AuthenticateStore
     
     private var anyCancellables: Set<AnyCancellable> = []
 
-    init(store: AuthenticateStore) {
+    init(store: AuthenticateStore, mapper: StateMapper? = nil) {
         self.store = store
-        self.stateMapper = PincodeStateMapper(store: store)
-        state = stateMapper!.mapState(SenderStateType.start)!
+        self.stateMapper = mapper == nil ? PincodeStateMapper(store: store) : mapper
+        let state = stateMapper!.mapState(SenderStateType.start) ?? PincodeState.logout
+        self.state = state
+//        DispatchQueue.main.async {
+//            self.state = EnterPincodeState.start
+//        }
+//
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//            self.state = EnterPincodeState.start
+//        }
 
         $state
+            .print("---")
             .compactMap{ $0 as? SenderStateType }
-            .sink {[unowned self] in stateSubject.send($0) }
+            .bindState(to: self, initState: state as? PincodeState)
             .store(in: &anyCancellables)
     }
 }

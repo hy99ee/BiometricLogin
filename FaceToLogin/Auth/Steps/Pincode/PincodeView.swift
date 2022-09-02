@@ -14,11 +14,6 @@ struct PincodeView: View {
     @EnvironmentObject var viewModel: PincodeViewModel
 
     var body: some View {
-        view()
-    }
-    
-    @ViewBuilder
-    func view() -> some View {
         switch viewModel.state {
         case EnterPincodeState.start:
             EnterPincodeView().environmentObject(EnterPincodeViewModel(store: viewModel.store).bindState(to: viewModel))
@@ -29,3 +24,8 @@ struct PincodeView: View {
     }
 }
 
+struct PincodeView_Previews: PreviewProvider {
+    static var previews: some View {
+        PincodeView().environmentObject(PincodeViewModel(store: AuthenticateStore(), mapper: PincodeMockMapper()))
+    }
+}

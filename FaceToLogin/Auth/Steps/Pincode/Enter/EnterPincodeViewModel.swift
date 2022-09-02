@@ -11,27 +11,26 @@ final class EnterPincodeViewModel: StateSender, ObservableObject {
 
     var stateSubject: PassthroughSubject<SenderStateType, Never> = .init()
 
-    let pincode: PassthroughSubject<String, Never> = .init()
+    let pincodeRequest: PassthroughSubject<String, Never> = .init()
+    let authenticateRequest: PassthroughSubject<Void, Never> = .init()
+    let logoutRequest: PassthroughSubject<Void, Never> = .init()
 
+    let removeClick: PassthroughSubject<Void, Never> = .init()
+    let numberClick: PassthroughSubject<Int, Never> = .init()
+    
     private let maxCount = 4
     private var currentCount = 0
     private var currentPincode = ""
 
-    let authenticateRequest = PassthroughSubject<Void, Never>()
-    let logoutRequest = PassthroughSubject<Void, Never>()
-    let removeClick = PassthroughSubject<Void, Never>()
-    let numberClick = PassthroughSubject<Int, Never>()
-    
-
     private let biometric = BiometricIDAuth()
+    
     private var anyCancellables: Set<AnyCancellable> = []
 
     init(store: AuthenticateStore) {
         self.store = store
         
         $state
-            .print("Enter View Model state: ")
-            .sink { [unowned self] in stateSubject.send($0) }
+            .bindState(to: self)
             .store(in: &anyCancellables)
 
         authenticateRequest
@@ -67,7 +66,7 @@ final class EnterPincodeViewModel: StateSender, ObservableObject {
             .compactMap { [unowned self] number -> String? in
                 currentPincode += String(number)
                 if currentPincode.count == maxCount {
-                    self.pincode.send(currentPincode)
+                    self.pincodeRequest.send(currentPincode)
                 } else if currentPincode.count > maxCount {
                     return nil
                 }
@@ -82,11 +81,11 @@ final class EnterPincodeViewModel: StateSender, ObservableObject {
             }
             .assign(to: &$pinsVisible)
 
-        pincode
+        pincodeRequest
             .sink { [unowned self] _ in self.state = .request(status: true) }
             .store(in: &anyCancellables)
         
-        pincode
+        pincodeRequest
             .delay(for: 3, scheduler: RunLoop.main)
             .map { [unowned self] _ in
                 self.state = .request(status: false)

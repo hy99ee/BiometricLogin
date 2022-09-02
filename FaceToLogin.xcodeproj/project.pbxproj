@@ -13,7 +13,6 @@
 		3B382BE5289D306900F0981D /* AuthenticateStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B382BE4289D306900F0981D /* AuthenticateStore.swift */; };
 		3B382BEA289D52CD00F0981D /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B382BE9289D52CD00F0981D /* UserDefaults.swift */; };
 		3B382BEF289D5A8F00F0981D /* EnterPasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B382BEE289D5A8F00F0981D /* EnterPasswordViewModel.swift */; };
-		3B57B69F28AAE49E008DFCBD /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B57B69E28AAE49E008DFCBD /* State.swift */; };
 		3B57B6A428AAE9C4008DFCBD /* EnterPincodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B57B6A328AAE9C4008DFCBD /* EnterPincodeViewModel.swift */; };
 		3B57B6A628AAEE83008DFCBD /* HomeEnterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B57B6A528AAEE83008DFCBD /* HomeEnterViewModel.swift */; };
 		3B57B6A828AE9479008DFCBD /* StateTransitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B57B6A728AE9479008DFCBD /* StateTransitions.swift */; };
@@ -46,7 +45,6 @@
 		3B382BE4289D306900F0981D /* AuthenticateStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticateStore.swift; sourceTree = "<group>"; };
 		3B382BE9289D52CD00F0981D /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
 		3B382BEE289D5A8F00F0981D /* EnterPasswordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterPasswordViewModel.swift; sourceTree = "<group>"; };
-		3B57B69E28AAE49E008DFCBD /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
 		3B57B6A328AAE9C4008DFCBD /* EnterPincodeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterPincodeViewModel.swift; sourceTree = "<group>"; };
 		3B57B6A528AAEE83008DFCBD /* HomeEnterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeEnterViewModel.swift; sourceTree = "<group>"; };
 		3B57B6A728AE9479008DFCBD /* StateTransitions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateTransitions.swift; sourceTree = "<group>"; };
@@ -161,7 +159,6 @@
 			isa = PBXGroup;
 			children = (
 				3BBE97E928B4E2BE00A3A7C6 /* StateMapper.swift */,
-				3B57B69E28AAE49E008DFCBD /* State.swift */,
 				3B57B6A728AE9479008DFCBD /* StateTransitions.swift */,
 			);
 			path = State;
@@ -319,7 +316,6 @@
 				3B7A4B9928BD067500562115 /* CreatePincodeView.swift in Sources */,
 				3B382BEA289D52CD00F0981D /* UserDefaults.swift in Sources */,
 				3B7A4BA028BF481900562115 /* EnterPincodeState.swift in Sources */,
-				3B57B69F28AAE49E008DFCBD /* State.swift in Sources */,
 				3BBE97EE28B50DE400A3A7C6 /* HomeStateMapper.swift in Sources */,
 				3B7A4B9728BCC36800562115 /* PincodeStateMapper.swift in Sources */,
 				3B382BE5289D306900F0981D /* AuthenticateStore.swift in Sources */,
