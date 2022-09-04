@@ -2,6 +2,9 @@ import Foundation
 import Combine
 
 class HomeEnterViewModel: ObservableObject, StateReciever {
+    @Published var state: StateType
+    @Published var isPresented = true
+
     var statePublisher: Published<StateType>.Publisher {
         get { $state }
         set { $state = newValue }
@@ -9,9 +12,6 @@ class HomeEnterViewModel: ObservableObject, StateReciever {
 
     var statePublished: Published<StateType> { _state }
 
-    @Published var state: StateType
-
-    @Published var isPresented = true
     let store: AuthenticateStore
 
     let stateMapper: StateMapper?

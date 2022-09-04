@@ -13,7 +13,7 @@ protocol StateSender {
 extension StateSender {
     func bindState<T: StateReciever>(to reciever: T) -> Self {
         stateSubject
-            .receive(on: DispatchQueue.main)
+//            .receive(on: DispatchQueue.main)
             .mapState(mapper: reciever.stateMapper)
             .assign(to: &reciever.statePublisher)
 

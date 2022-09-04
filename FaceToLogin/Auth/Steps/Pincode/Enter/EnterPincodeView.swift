@@ -4,31 +4,33 @@ import Combine
 struct EnterPincodeView: View {
     @EnvironmentObject var viewModel: EnterPincodeViewModel
     @State var isAnimating = false
+    
+    let placeholder = ""
 
     @ViewBuilder
     private var rightButtonView: some View {
-        if viewModel.pinsVisible.isEmpty, viewModel.biomitricTypeImage == nil { EmptyView() }
+        if viewModel.pincode.isEmpty, viewModel.biomitricTypeImage == nil { EmptyView() }
         else {
-            Image(systemName: viewModel.pinsVisible.isEmpty ? viewModel.biomitricTypeImage! : "chevron.backward")
+            Image(systemName: viewModel.pincode.isEmpty ? viewModel.biomitricTypeImage! : "chevron.backward")
                 .font(.system(size: 30))
         }
     }
 
-    private var rightButton: PincodeFieldActionButton {(
+    private var rightButton: PincodeNumbersActionButton {(
         view: AnyView(rightButtonView),
-        action: { viewModel.pinsVisible.isEmpty ? viewModel.authenticateRequest.send() : viewModel.removeClick.send() }
+        action: { viewModel.pincode.isEmpty ? viewModel.authenticateRequest.send() : viewModel.removeClick.send() }
     )}
 
     @ViewBuilder
     private var leftButtonView: some View {
         Image(systemName: "house").font(.system(size: 25))
     }
-    private var leftButton: PincodeFieldActionButton {(
+    private var leftButton: PincodeNumbersActionButton {(
         view: AnyView(leftButtonView),
         action: { viewModel.logoutRequest.send() }
     )}
 
-    private var pincodeFieldConfiguration: PincodeActionButtonsConfiguration {
+    private var pincodeNumbersConfiguration: PincodeActionButtonsConfiguration {
         PincodeActionButtonsConfiguration.init(rightButton: rightButton, leftButton: leftButton)
     }
 
@@ -43,21 +45,19 @@ struct EnterPincodeView: View {
                     .font(.system(size: 20))
                     .foregroundColor(.init(white: 0.35))
                     .textCase(.uppercase)
-        
-                
-                Text(viewModel.pinsVisible)
-                    .font(.system(size: 33))
+
+                InputPincodeView(password: $viewModel.pincode, placeholder: "")
                     .scaleEffect(isAnimating ? 1.1 : 1)
                     .opacity(isAnimating ? 0.5 : 1)
-                    .frame(idealWidth: .infinity, maxWidth: .infinity, idealHeight: 100, maxHeight: 100, alignment: .center)
                     .foregroundColor(primaryColor)
+//                    .frame(idealWidth: .infinity, maxWidth: .infinity, idealHeight: 100, maxHeight: 100, alignment: .center)
+                
                 Spacer()
             }
             .padding()
             
-            PincodeFieldView(with: pincodeFieldConfiguration, receiver: viewModel.numberClick)
+            PincodeNumbersView(with: pincodeNumbersConfiguration, receiver: viewModel.numberClick)
                 .opacity(isAnimating ? 0.5 : 1)
-                .disabled(isAnimating)
             
             .onReceive(viewModel.$state) { value in
                 withAnimation(isAnimating ? Animation.default : .easeInOut(duration: 0.5).repeatForever()) {
@@ -70,6 +70,7 @@ struct EnterPincodeView: View {
                     }()
                 }
             }
+            .disabled(isAnimating)
             .padding()
         }
     }

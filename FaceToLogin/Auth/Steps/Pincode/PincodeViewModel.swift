@@ -22,20 +22,16 @@ class PincodeViewModel: StateSender, StateReciever, ObservableObject {
     init(store: AuthenticateStore, mapper: StateMapper? = nil) {
         self.store = store
         self.stateMapper = mapper == nil ? PincodeStateMapper(store: store) : mapper
+
         let state = stateMapper!.mapState(SenderStateType.start) ?? PincodeState.logout
         self.state = state
-//        DispatchQueue.main.async {
-//            self.state = EnterPincodeState.start
-//        }
-//
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//            self.state = EnterPincodeState.start
-//        }
 
         $state
             .print("---")
             .compactMap{ $0 as? SenderStateType }
-            .bindState(to: self, initState: state as? PincodeState)
+            .receive(on: DispatchQueue.main)
+            .bindState(to: self)
+//            .subscribe(stateSubject)
             .store(in: &anyCancellables)
     }
 }

@@ -18,7 +18,7 @@ final class EnterPasswordViewModel: StateSender, ObservableObject {
         self.store = store
 
         $state
-            .bindState(to: self)
+            .subscribe(stateSubject)
             .store(in: &anyCancellables)
 
         loginRequest
