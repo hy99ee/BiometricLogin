@@ -6,12 +6,12 @@ enum PincodeActionButtonType: String {
     case right
 }
 
-typealias PincodeFieldActionButton = (view: AnyView?, action: () -> Void)
+typealias PincodeNumbersActionButton = (view: AnyView?, action: () -> Void)
 struct PincodeActionButtonsConfiguration {
-    let rightButton: PincodeFieldActionButton
-    let leftButton: PincodeFieldActionButton
+    let rightButton: PincodeNumbersActionButton
+    let leftButton: PincodeNumbersActionButton
     
-    func valueByButtonTitle(_ button: String) -> PincodeFieldActionButton? {
+    func valueByButtonTitle(_ button: String) -> PincodeNumbersActionButton? {
         switch button {
         case PincodeActionButtonType.left.rawValue: return leftButton
         case PincodeActionButtonType.right.rawValue: return rightButton
@@ -20,7 +20,7 @@ struct PincodeActionButtonsConfiguration {
     }
 }
 
-struct PincodeFieldView: View {
+struct PincodeNumbersView: View {
     private static let rows = [
         ["1", "2", "3"],
         ["4", "5", "6"],

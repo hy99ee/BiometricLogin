@@ -18,8 +18,8 @@ struct PincodeView: View {
         case EnterPincodeState.start:
             EnterPincodeView().environmentObject(EnterPincodeViewModel(store: viewModel.store).bindState(to: viewModel))
         case CreatePincodeState.start:
-            CreatePincodeView().environmentObject(CreatePincodeViewModel().bindState(to: viewModel))
-        default: ProgressView().background(.blue)
+            CreatePincodeView().environmentObject(CreatePincodeViewModel(store: viewModel.store).bindState(to: viewModel))
+        default: ProgressView()
         }
     }
 }

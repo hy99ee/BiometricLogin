@@ -7,7 +7,7 @@ final class EnterPincodeViewModel: StateSender, ObservableObject {
 
     @Published var state: SenderStateType = .start
     @Published var store: AuthenticateStore
-    @Published var pinsVisible: String = ""
+    @Published var pincode = ""
 
     var stateSubject: PassthroughSubject<SenderStateType, Never> = .init()
 
@@ -20,7 +20,6 @@ final class EnterPincodeViewModel: StateSender, ObservableObject {
     
     private let maxCount = 4
     private var currentCount = 0
-    private var currentPincode = ""
 
     private let biometric = BiometricIDAuth()
     
@@ -41,20 +40,12 @@ final class EnterPincodeViewModel: StateSender, ObservableObject {
             .assign(to: &$state)
 
         removeClick
-            .compactMap { [unowned self] _ -> String in
-                if currentPincode.count > 0 {
-                    self.currentPincode.removeLast()
+            .sink { [unowned self] _ in
+                if pincode.count > 0 {
+                    self.pincode.removeLast()
                 }
-                return currentPincode
             }
-            .map {
-                var visible = ""
-                for _ in $0 {
-                    visible.append(contentsOf: " ● ")
-                }
-                return visible
-            }
-            .assign(to: &$pinsVisible)
+            .store(in: &anyCancellables)
         
         logoutRequest
             .flatMap { [unowned self] in self.store.logout() }
@@ -63,36 +54,25 @@ final class EnterPincodeViewModel: StateSender, ObservableObject {
             .assign(to: &$state)
 
         numberClick
-            .compactMap { [unowned self] number -> String? in
-                currentPincode += String(number)
-                if currentPincode.count == maxCount {
-                    self.pincodeRequest.send(currentPincode)
-                } else if currentPincode.count > maxCount {
-                    return nil
+            .sink { [unowned self] number in
+                pincode += String(number)
+                if pincode.count == maxCount {
+                    self.pincodeRequest.send(pincode)
                 }
-                return currentPincode
             }
-            .map {
-                var visible = ""
-                for _ in $0 {
-                    visible.append(contentsOf: " ● ")
-                }
-                return visible
-            }
-            .assign(to: &$pinsVisible)
+            .store(in: &anyCancellables)
 
         pincodeRequest
-            .sink { [unowned self] _ in self.state = .request(status: true) }
-            .store(in: &anyCancellables)
+            .map { _ in EnterPincodeState.request(status: true) }
+            .assign(to: &$state)
         
         pincodeRequest
             .delay(for: 3, scheduler: RunLoop.main)
             .map { [unowned self] _ in
                 self.state = .request(status: false)
-                self.currentPincode = ""
-                return self.currentPincode
+                return ""
             }
-            .assign(to: &$pinsVisible)
+            .assign(to: &$pincode)
     }
     
     var biomitricTypeImage: String? {

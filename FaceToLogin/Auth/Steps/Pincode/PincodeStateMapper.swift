@@ -43,6 +43,6 @@ class PincodeStateMapper: StateMapper {
 
 class PincodeMockMapper: StateMapper {
     func mapState(_ state: StateType) -> StateType? {
-        PincodeState.logout
+        PincodeState.start
     }
 }
