@@ -3,6 +3,7 @@ import SwiftUI
 import Combine
 
 let primaryColor = Color(red: 0, green: 116/255, blue: 178/255, opacity: 1.0)
+let failureColor = Color(red: 245, green: 72/255, blue: 66/255, opacity: 1.0)
 
 protocol CoordinatorViewType: View {
     var viewModel: PincodeViewModel { get }

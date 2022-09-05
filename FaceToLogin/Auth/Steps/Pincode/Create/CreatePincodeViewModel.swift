@@ -5,69 +5,88 @@ final class CreatePincodeViewModel: StateSender, ObservableObject {
     typealias SenderStateType = CreatePincodeState
 
     @Published var state: SenderStateType = .start
-    @Published var store: AuthenticateStore
 
-    @Published var prepincode: String = ""
-    @Published var pincode: String = ""
+    @Published var prepasscode = Passcode()
+    @Published var passcode = Passcode()
+    @Published var numbers = PasscodeNumbersViewModel()
 
-    let stateSubject: PassthroughSubject<SenderStateType, Never> = .init()
+    let stateSender: PassthroughSubject<CreatePincodeState, Never> = .init()
 
-    let prepincodeRequest: PassthroughSubject<String, Never> = .init()
-    let pincodeRequest: PassthroughSubject<String, Never> = .init()
+    private let store: AuthenticateStore
 
-    let removeClick: PassthroughSubject<Void, Never> = .init()
-    let numberClick: PassthroughSubject<Int, Never> = .init()
-    
-    private let maxCount = 4
-    private var currentCount = 0
-
-    private var anyCancellables: Set<AnyCancellable> = []
+    var cancelBag: CancelBag = []
 
     init(store: AuthenticateStore) {
         self.store = store
 
-        $state
-            .print("===")
-//            .subscribe(stateSubject)
-//            .subscribe(stateSubject)
-//            .receive(on: DispatchQueue.main)
-            .bindState(to: self)
-            .store(in: &anyCancellables)
+        setupBindings()
+    }
+    
+    private func setupBindings() {        
+        stateSender.assign(to: &$state)
 
-        numberClick
-            .sink { [unowned self] number in
-                switch self.state {
-                case .start:
-                    prepincode += String(number)
-                    if prepincode.count == maxCount {
-                        self.prepincodeRequest.send(pincode)
-                    }
-                case .approve:
-                    pincode += String(number)
-                    if pincode.count == maxCount {
-                        self.pincodeRequest.send(pincode)
-                    }
-                default: break
-                }
+        self.objectWillChange.sink { [unowned self] in self.numbers.objectWillChange.send() }.store(in: &cancelBag)
+        prepasscode.objectWillChange.sink { [unowned self] in self.objectWillChange.send() }.store(in: &cancelBag)
+        passcode.objectWillChange.sink { [unowned self] in self.objectWillChange.send() }.store(in: &cancelBag)
+
+        numbers.rightButtonClicked
+            .sink {[unowned self] in prepasscode.isFull && !passcode.emptyInputPasscode
+                ? passcode.removeElement.send()
+                : prepasscode.removeElement.send()
             }
-            .store(in: &anyCancellables)
+            .store(in: &cancelBag)
         
-        prepincodeRequest
-            .map { _ in CreatePincodeState.approve }
-            .assign(to: &$state)
+        numbers.rightButtonClicked
+            .filter { [unowned self] in prepasscode.isFull && passcode.emptyInputPasscode }
+            .map { _ in .start }
+            .subscribe(stateSender)
+            .store(in: &cancelBag)
 
-        pincodeRequest
-            .map { _ in CreatePincodeState.loading }
-            .assign(to: &$state)
+//        numbers.rightButtonClicked
+//
+//            .filter {[unowned self] in $0.count == 1 && prepasscode.isFull && !prepasscode.emptyInputPasscode }
+//            .map { _ in .start }
+//            .subscribe(stateSender)
+//            .store(in: &cancelBag)
 
-        pincodeRequest
-            .delay(for: 3, scheduler: DispatchQueue.main)
-            .map { [unowned self] _ in
-                let isApprove = prepincode == pincode
-                self.prepincode = ""
-                self.pincode = ""
-                return .request(status: isApprove)
+        numbers.numberButtonClicked
+            .sink {[unowned self] in prepasscode.isFull
+                ? passcode.newElement.send($0)
+                : prepasscode.newElement.send($0)
             }
-            .assign(to: &$state)
+            .store(in: &cancelBag)
+
+        prepasscode.passcode
+            .filter{ !$0.isEmpty }
+            .delay(for: .milliseconds(250), scheduler: RunLoop.main)
+            .map { _ in CreatePincodeState.approve }
+            .subscribe(stateSender)
+            .store(in: &cancelBag)
+
+        passcode.passcode
+            .combineLatest(prepasscode.passcode)
+            .print("---")
+            .filter { !$0.0.isEmpty && !$0.1.isEmpty }
+            .map { $0.0 == $0.1 ? CreatePincodeState.request(status: true) : CreatePincodeState.failure }
+            .subscribe(stateSender)
+            .store(in: &cancelBag)
+
+        passcode.passcode
+            .filter{ !$0.isEmpty }
+            .delay(for: 3, scheduler: RunLoop.main)
+            .handleEvents(receiveOutput: { [weak self] _ in
+                self?.passcode.reset.send()
+                self?.prepasscode.reset.send()
+            })
+            .map { _ in .start }
+            .subscribe(stateSender)
+            .store(in: &cancelBag)
+
+//        passcode.passcode
+//            .print("+++")
+//            .filter {[unowned self] in $0.isEmpty && prepasscode.isFull && !prepasscode.emptyInputPasscode }
+//            .map { _ in .start }
+//            .subscribe(stateSender)
+//            .store(in: &cancelBag)
     }
 }

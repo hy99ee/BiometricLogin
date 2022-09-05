@@ -4,72 +4,64 @@ import SwiftUI
 struct CreatePincodeView: View {
     @EnvironmentObject var viewModel: CreatePincodeViewModel
     @State var isAnimating = false
+    @State var isDisabled = false
     @State var approvePincode = false
+    @State var isFailure = false
     
     @ViewBuilder
     private var rightButtonView: some View {
-        EmptyView()
+        if !viewModel.prepasscode.emptyInputPasscode { Image(systemName: "chevron.backward") }
+        else { EmptyView() }
     }
-
-    private var rightButton: PincodeNumbersActionButton {(
-        view: AnyView(rightButtonView),
-        action: { }
-    )}
 
     @ViewBuilder
     private var leftButtonView: some View {
         EmptyView()
     }
 
-    private var leftButton: PincodeNumbersActionButton {(
-        view: AnyView(leftButtonView),
-        action: {  }
-    )}
-
-    private var pincodeNumbersConfiguration: PincodeActionButtonsConfiguration {
-        .init(rightButton: rightButton, leftButton: leftButton)
-    }
-
     var body: some View {
         VStack {
             VStack {
                 Spacer()
-
-                Text("Enter new pincode")
-                    .padding(3)
-                    .font(.system(size: 20))
-                    .foregroundColor(.init(white: 0.35))
-                    .textCase(.uppercase)
-
-                InputPincodeView(password: $viewModel.prepincode, placeholder: "")
-                    .font(.system(size: 33))
-                    .scaleEffect(isAnimating ? 1.1 : 1)
-                    .opacity(isAnimating ? 0.5 : 1)
-                    .foregroundColor(primaryColor)
-
-                if approvePincode {
-                    InputPincodeView(password: $viewModel.pincode, placeholder: "")
-                        .font(.system(size: 33))
-                        .scaleEffect(isAnimating ? 1.1 : 1)
-                        .opacity(isAnimating ? 0.5 : 1)
-                        .foregroundColor(primaryColor)
-                }
+                PasscodeFieldView().environmentObject(viewModel.prepasscode)
+                if approvePincode { PasscodeFieldView().environmentObject(viewModel.passcode) }
                 Spacer()
             }
+            .scaleEffect(isAnimating ? 1.1 : 1)
+            .opacity(isAnimating ? 0.5 : 1)
+            .foregroundColor(isFailure ? failureColor : primaryColor)
             .padding()
-            PincodeNumbersView(with: pincodeNumbersConfiguration, receiver: viewModel.numberClick).padding()
+
+            PincodeNumbersView().environmentObject(viewModel.numbers.withButtons(left: AnyView(leftButtonView), right: AnyView(rightButtonView)))
+                .opacity(isAnimating ? 0.5 : 1)
         }
-//        .disabled(isAnimating)
+        .disabled(isDisabled)
         .onReceive(viewModel.$state) { value in
             withAnimation(approvePincode ? Animation.default : .easeInOut(duration: 0.5)) {
+                isDisabled = true
                 approvePincode = {
-                    if case .approve = value { return true } else { return false }
+                    switch value {
+                    case .approve, .failure: return true
+                    default: return false
+                    }
+                }()
+                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(2000)) {
+                    isDisabled = false
+                }
+            }
+            withAnimation(isFailure ? Animation.default : .easeInOut(duration: 0.5)) {
+                isFailure = {
+                    if case .failure = value { return true } else { return false }
                 }()
             }
             withAnimation(isAnimating ? Animation.default : .easeInOut(duration: 0.5).repeatForever()) {
                 isAnimating = {
-                    if case .loading = value { return true } else { return false }
+                    if case .request = value { return true } else { return false }
                 }()
+//                isDisabled = {
+//                    if isAnimating { return true }
+//                }()
+                if isAnimating { isDisabled = true }
             }
         }
     }

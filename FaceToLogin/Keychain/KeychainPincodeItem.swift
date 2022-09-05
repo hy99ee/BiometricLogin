@@ -3,10 +3,10 @@ import LocalAuthentication
 
 import Foundation
 
-struct KeychainPasswordItem {
+struct KeychainPincodeItem {
     enum KeychainError: Error {
-        case noPassword
-        case unexpectedPasswordData
+        case noPincode
+        case unexpectedPincodeData
         case unexpectedItemData
         case unhandledError(status: OSStatus)
     }
@@ -24,7 +24,7 @@ struct KeychainPasswordItem {
     }
 
     func readPassword() throws -> String  {
-        var query = KeychainPasswordItem.keychainQuery(withService: service, account: account, accessGroup: accessGroup)
+        var query = KeychainPincodeItem.keychainQuery(withService: service, account: account, accessGroup: accessGroup)
         query[kSecMatchLimit as String] = kSecMatchLimitOne
         query[kSecReturnAttributes as String] = kCFBooleanTrue
         query[kSecReturnData as String] = kCFBooleanTrue
@@ -34,14 +34,14 @@ struct KeychainPasswordItem {
             SecItemCopyMatching(query as CFDictionary, UnsafeMutablePointer($0))
         }
 
-        guard status != errSecItemNotFound else { throw KeychainError.noPassword }
+        guard status != errSecItemNotFound else { throw KeychainError.noPincode }
         guard status == noErr else { throw KeychainError.unhandledError(status: status) }
         
         guard let existingItem = queryResult as? [String : AnyObject],
             let passwordData = existingItem[kSecValueData as String] as? Data,
             let password = String(data: passwordData, encoding: String.Encoding.utf8)
         else {
-            throw KeychainError.unexpectedPasswordData
+            throw KeychainError.unexpectedPincodeData
         }
         
         return password
@@ -56,13 +56,13 @@ struct KeychainPasswordItem {
             var attributesToUpdate = [String : AnyObject]()
             attributesToUpdate[kSecValueData as String] = encodedPassword as AnyObject?
 
-            let query = KeychainPasswordItem.keychainQuery(withService: service, account: account, accessGroup: accessGroup)
+            let query = KeychainPincodeItem.keychainQuery(withService: service, account: account, accessGroup: accessGroup)
             let status = SecItemUpdate(query as CFDictionary, attributesToUpdate as CFDictionary)
             
             guard status == noErr else { throw KeychainError.unhandledError(status: status) }
         }
-        catch KeychainError.noPassword {
-            var newItem = KeychainPasswordItem.keychainQuery(withService: service, account: account, accessGroup: accessGroup)
+        catch KeychainError.noPincode {
+            var newItem = KeychainPincodeItem.keychainQuery(withService: service, account: account, accessGroup: accessGroup)
             newItem[kSecValueData as String] = encodedPassword as AnyObject?
             
             let status = SecItemAdd(newItem as CFDictionary, nil)
@@ -75,7 +75,7 @@ struct KeychainPasswordItem {
         var attributesToUpdate = [String : AnyObject]()
         attributesToUpdate[kSecAttrAccount as String] = newAccountName as AnyObject?
         
-        let query = KeychainPasswordItem.keychainQuery(withService: service, account: self.account, accessGroup: accessGroup)
+        let query = KeychainPincodeItem.keychainQuery(withService: service, account: self.account, accessGroup: accessGroup)
         let status = SecItemUpdate(query as CFDictionary, attributesToUpdate as CFDictionary)
 
         guard status == noErr || status == errSecItemNotFound else { throw KeychainError.unhandledError(status: status) }
@@ -84,14 +84,14 @@ struct KeychainPasswordItem {
     }
     
     func deleteItem() throws {
-        let query = KeychainPasswordItem.keychainQuery(withService: service, account: account, accessGroup: accessGroup)
+        let query = KeychainPincodeItem.keychainQuery(withService: service, account: account, accessGroup: accessGroup)
         let status = SecItemDelete(query as CFDictionary)
         
         guard status == noErr || status == errSecItemNotFound else { throw KeychainError.unhandledError(status: status) }
     }
     
-    static func passwordItems(forService service: String, accessGroup: String? = nil) throws -> [KeychainPasswordItem] {
-        var query = KeychainPasswordItem.keychainQuery(withService: service, accessGroup: accessGroup)
+    static func passwordItems(forService service: String, accessGroup: String? = nil) throws -> [KeychainPincodeItem] {
+        var query = KeychainPincodeItem.keychainQuery(withService: service, accessGroup: accessGroup)
         query[kSecMatchLimit as String] = kSecMatchLimitAll
         query[kSecReturnAttributes as String] = kCFBooleanTrue
         query[kSecReturnData as String] = kCFBooleanFalse
@@ -107,11 +107,11 @@ struct KeychainPasswordItem {
 
         guard let resultData = queryResult as? [[String : AnyObject]] else { throw KeychainError.unexpectedItemData }
 
-        var passwordItems = [KeychainPasswordItem]()
+        var passwordItems = [KeychainPincodeItem]()
         for result in resultData {
             guard let account  = result[kSecAttrAccount as String] as? String else { throw KeychainError.unexpectedItemData }
             
-            let passwordItem = KeychainPasswordItem(service: service, account: account, accessGroup: accessGroup)
+            let passwordItem = KeychainPincodeItem(service: service, account: account, accessGroup: accessGroup)
             passwordItems.append(passwordItem)
         }
 

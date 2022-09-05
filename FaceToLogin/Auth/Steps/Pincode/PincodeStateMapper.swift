@@ -37,12 +37,12 @@ class PincodeStateMapper: StateMapper {
     }
     
     private func isFirstLoginState() -> PincodeStateType {
-        self.store.isLogin ?  EnterPincodeState.start : CreatePincodeState.start
+        self.store.isLogin ?  CreatePincodeState.start : EnterPincodeState.start
     }
 }
 
 class PincodeMockMapper: StateMapper {
     func mapState(_ state: StateType) -> StateType? {
-        PincodeState.start
+        CreatePincodeState.start
     }
 }

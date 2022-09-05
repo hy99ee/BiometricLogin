@@ -53,7 +53,7 @@ class BiometricIDAuth: BiometricIDAuthType {
             }
             
             do {
-                let passwordItem = KeychainPasswordItem(service: KeychainConfiguration.serviceName,
+                let passwordItem = KeychainPincodeItem(service: KeychainConfiguration.serviceName,
                                                         account: username,
                                                         accessGroup: KeychainConfiguration.accessGroup)
                 let keychainPassword = try passwordItem.readPassword()
