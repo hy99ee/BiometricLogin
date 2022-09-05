@@ -3,25 +3,37 @@ import Combine
 
 protocol StateType {}
 
-protocol StateSender {
+protocol StateSender: ObservableObject {
     associatedtype SenderStateType: StateType
-    var stateSubject: PassthroughSubject<SenderStateType, Never> { get }
+    var stateSender: PassthroughSubject<SenderStateType, Never> { get }
+    var stateSubscription: AnyCancellable? { get set }
 
     func bindState<T: StateReciever>(to reciever: T) -> Self
 }
 
 extension StateSender {
     func bindState<T: StateReciever>(to reciever: T) -> Self {
-        stateSubject
-//            .receive(on: DispatchQueue.main)
+        stateSubscription = stateSender
             .mapState(mapper: reciever.stateMapper)
-            .assign(to: &reciever.statePublisher)
+            .receive(on: DispatchQueue.main)
+            .subscribe(reciever.stateReceiver)
 
         return self
     }
 }
 
 protocol StateReciever: ObservableObject, WithStateMapper {
-    var statePublished: Published<StateType> { get }
-    var statePublisher: Published<StateType>.Publisher { get set }
+    var stateReceiver: PassthroughSubject<StateType, Never> { get }
+    var stateSubscription: AnyCancellable? { get set }
+}
+
+extension StateReciever {
+    func bindState<T: StateSender>(to sender: T) -> Self {
+        stateSubscription = sender.stateSender
+            .mapState(mapper: stateMapper)
+            .receive(on: DispatchQueue.main)
+            .subscribe(stateReceiver)
+
+        return self
+    }
 }

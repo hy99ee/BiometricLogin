@@ -28,9 +28,5 @@ extension Publisher where Output: StateType, Failure == Never {
             .compactMap { $0 }
             .eraseToAnyPublisher()
     }
-
-    func bindState<T>(to sender: T, initState: T.SenderStateType? = nil) -> AnyCancellable where T: StateSender, T: AnyObject, Output == T.SenderStateType {
-        self.sink{[weak sender] in sender?.stateSubject.send($0) }
-    }
 }
 

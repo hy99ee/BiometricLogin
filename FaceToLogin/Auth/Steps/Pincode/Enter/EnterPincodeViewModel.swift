@@ -9,7 +9,7 @@ final class EnterPincodeViewModel: StateSender, ObservableObject {
     @Published var store: AuthenticateStore
     @Published var pincode = ""
 
-    var stateSubject: PassthroughSubject<SenderStateType, Never> = .init()
+    var stateSender: PassthroughSubject<EnterPincodeState, Never> = .init()
 
     let pincodeRequest: PassthroughSubject<String, Never> = .init()
     let authenticateRequest: PassthroughSubject<Void, Never> = .init()
@@ -24,13 +24,12 @@ final class EnterPincodeViewModel: StateSender, ObservableObject {
     private let biometric = BiometricIDAuth()
     
     private var anyCancellables: Set<AnyCancellable> = []
+    var stateSubscription: AnyCancellable?
 
     init(store: AuthenticateStore) {
         self.store = store
         
-        $state
-            .bindState(to: self)
-            .store(in: &anyCancellables)
+        stateSender.assign(to: &$state)
 
         authenticateRequest
             .flatMap { [unowned self] in biometric.authenticateUser() }

@@ -10,7 +10,7 @@ final class CreatePincodeViewModel: StateSender, ObservableObject {
     @Published var prepincode: String = ""
     @Published var pincode: String = ""
 
-    let stateSubject: PassthroughSubject<SenderStateType, Never> = .init()
+    let stateSender: PassthroughSubject<CreatePincodeState, Never> = .init()
 
     let prepincodeRequest: PassthroughSubject<String, Never> = .init()
     let pincodeRequest: PassthroughSubject<String, Never> = .init()
@@ -22,17 +22,12 @@ final class CreatePincodeViewModel: StateSender, ObservableObject {
     private var currentCount = 0
 
     private var anyCancellables: Set<AnyCancellable> = []
+    var stateSubscription: AnyCancellable?
 
     init(store: AuthenticateStore) {
         self.store = store
 
-        $state
-            .print("===")
-//            .subscribe(stateSubject)
-//            .subscribe(stateSubject)
-//            .receive(on: DispatchQueue.main)
-            .bindState(to: self)
-            .store(in: &anyCancellables)
+        stateSender.assign(to: &$state)
 
         numberClick
             .sink { [unowned self] number in
