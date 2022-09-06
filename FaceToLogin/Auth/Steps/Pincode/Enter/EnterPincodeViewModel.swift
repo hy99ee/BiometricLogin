@@ -9,7 +9,7 @@ final class EnterPincodeViewModel: StateSender, ObservableObject {
     @Published var store: AuthenticateStore
     @Published var pincode = ""
 
-    var stateSubject: PassthroughSubject<SenderStateType, Never> = .init()
+    var stateSender: PassthroughSubject<EnterPincodeState, Never> = .init()
 
     let pincodeRequest: PassthroughSubject<String, Never> = .init()
     let authenticateRequest: PassthroughSubject<Void, Never> = .init()
@@ -23,56 +23,12 @@ final class EnterPincodeViewModel: StateSender, ObservableObject {
 
     private let biometric = BiometricIDAuth()
     
-    private var anyCancellables: Set<AnyCancellable> = []
+    var cancelBag: CancelBag = []
 
     init(store: AuthenticateStore) {
         self.store = store
-        
-        $state
-            .bindState(to: self)
-            .store(in: &anyCancellables)
 
-        authenticateRequest
-            .flatMap { [unowned self] in biometric.authenticateUser() }
-            .filter { $0 }
-            .map { _ in EnterPincodeState.finish }
-            .receive(on: DispatchQueue.main)
-            .assign(to: &$state)
-
-        removeClick
-            .sink { [unowned self] _ in
-                if pincode.count > 0 {
-                    self.pincode.removeLast()
-                }
-            }
-            .store(in: &anyCancellables)
-        
-        logoutRequest
-            .flatMap { [unowned self] in self.store.logout() }
-            .map { _ in EnterPincodeState.finish }
-            .receive(on: DispatchQueue.main)
-            .assign(to: &$state)
-
-        numberClick
-            .sink { [unowned self] number in
-                pincode += String(number)
-                if pincode.count == maxCount {
-                    self.pincodeRequest.send(pincode)
-                }
-            }
-            .store(in: &anyCancellables)
-
-        pincodeRequest
-            .map { _ in EnterPincodeState.request(status: true) }
-            .assign(to: &$state)
-        
-        pincodeRequest
-            .delay(for: 3, scheduler: RunLoop.main)
-            .map { [unowned self] _ in
-                self.state = .request(status: false)
-                return ""
-            }
-            .assign(to: &$pincode)
+        setupBindings()
     }
     
     var biomitricTypeImage: String? {
@@ -81,5 +37,55 @@ final class EnterPincodeViewModel: StateSender, ObservableObject {
         case .faceID: return "faceid"
         case .touchID: return "touchid"
         }
+    }
+    
+    private func setupBindings() {
+        stateSender.assign(to: &$state)
+
+        authenticateRequest
+            .flatMap { [unowned self] in biometric.authenticateUser() }
+            .filter { $0 }
+            .map { _ in EnterPincodeState.finish }
+            .receive(on: DispatchQueue.main)
+            .subscribe(stateSender)
+            .store(in: &cancelBag)
+
+        removeClick
+            .sink { [unowned self] _ in
+                if pincode.count > 0 {
+                    pincode.removeLast()
+                }
+            }
+            .store(in: &cancelBag)
+        
+        logoutRequest
+            .flatMap { [unowned self] in self.store.logout() }
+            .map { _ in EnterPincodeState.finish }
+            .receive(on: DispatchQueue.main)
+            .subscribe(stateSender)
+            .store(in: &cancelBag)
+
+        numberClick
+            .sink { [unowned self] number in
+                pincode += String(number)
+                if pincode.count == maxCount {
+                    pincodeRequest.send(pincode)
+                }
+            }
+            .store(in: &cancelBag)
+
+        pincodeRequest
+            .map { _ in EnterPincodeState.request(status: true) }
+            .subscribe(stateSender)
+            .store(in: &cancelBag)
+        
+        pincodeRequest
+            .delay(for: 3, scheduler: RunLoop.main)
+            .map { [unowned self] _ in
+                self.pincode = ""
+                return .request(status: false)
+            }
+            .subscribe(stateSender)
+            .store(in: &cancelBag)
     }
 }

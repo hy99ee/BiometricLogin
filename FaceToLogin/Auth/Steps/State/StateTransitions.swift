@@ -3,25 +3,43 @@ import Combine
 
 protocol StateType {}
 
-protocol StateSender {
+protocol WithCancelBag: AnyObject {
+    var cancelBag: CancelBag { get set }
+}
+
+protocol StateSender: WithCancelBag {
     associatedtype SenderStateType: StateType
-    var stateSubject: PassthroughSubject<SenderStateType, Never> { get }
+    var stateSender: PassthroughSubject<SenderStateType, Never> { get }
 
     func bindState<T: StateReciever>(to reciever: T) -> Self
 }
 
 extension StateSender {
+    @discardableResult
     func bindState<T: StateReciever>(to reciever: T) -> Self {
-        stateSubject
-//            .receive(on: DispatchQueue.main)
+        stateSender
             .mapState(mapper: reciever.stateMapper)
-            .assign(to: &reciever.statePublisher)
+            .subscribe(reciever.stateReceiver)
+            .store(in: &cancelBag)
 
         return self
     }
 }
 
-protocol StateReciever: ObservableObject, WithStateMapper {
-    var statePublished: Published<StateType> { get }
-    var statePublisher: Published<StateType>.Publisher { get set }
+protocol StateReciever: WithStateMapper, WithCancelBag {
+    var stateReceiver: PassthroughSubject<StateType, Never> { get }
+}
+
+extension StateReciever {
+    @discardableResult
+    func bindState<T: StateSender>(on sender: T) -> Self {
+        stateReceiver
+            .compactMap { $0 as? T.SenderStateType }
+            .mapState(mapper: stateMapper)
+            .compactMap { $0 as? T.SenderStateType }
+            .subscribe(sender.stateSender)
+            .store(in: &cancelBag)
+
+        return self
+    }
 }

@@ -10,7 +10,7 @@ final class CreatePincodeViewModel: StateSender, ObservableObject {
     @Published var prepincode: String = ""
     @Published var pincode: String = ""
 
-    let stateSubject: PassthroughSubject<SenderStateType, Never> = .init()
+    let stateSender: PassthroughSubject<CreatePincodeState, Never> = .init()
 
     let prepincodeRequest: PassthroughSubject<String, Never> = .init()
     let pincodeRequest: PassthroughSubject<String, Never> = .init()
@@ -21,18 +21,17 @@ final class CreatePincodeViewModel: StateSender, ObservableObject {
     private let maxCount = 4
     private var currentCount = 0
 
-    private var anyCancellables: Set<AnyCancellable> = []
+    var cancelBag: CancelBag = []
 
     init(store: AuthenticateStore) {
         self.store = store
 
-        $state
-            .print("===")
-//            .subscribe(stateSubject)
-//            .subscribe(stateSubject)
-//            .receive(on: DispatchQueue.main)
-            .bindState(to: self)
-            .store(in: &anyCancellables)
+        setupBindings()
+    }
+    
+    private func setupBindings() {
+        
+        stateSender.assign(to: &$state)
 
         numberClick
             .sink { [unowned self] number in
@@ -50,15 +49,17 @@ final class CreatePincodeViewModel: StateSender, ObservableObject {
                 default: break
                 }
             }
-            .store(in: &anyCancellables)
+            .store(in: &cancelBag)
         
         prepincodeRequest
             .map { _ in CreatePincodeState.approve }
-            .assign(to: &$state)
+            .subscribe(stateSender)
+            .store(in: &cancelBag)
 
         pincodeRequest
             .map { _ in CreatePincodeState.loading }
-            .assign(to: &$state)
+            .subscribe(stateSender)
+            .store(in: &cancelBag)
 
         pincodeRequest
             .delay(for: 3, scheduler: DispatchQueue.main)
@@ -68,6 +69,7 @@ final class CreatePincodeViewModel: StateSender, ObservableObject {
                 self.pincode = ""
                 return .request(status: isApprove)
             }
-            .assign(to: &$state)
+            .subscribe(stateSender)
+            .store(in: &cancelBag)
     }
 }

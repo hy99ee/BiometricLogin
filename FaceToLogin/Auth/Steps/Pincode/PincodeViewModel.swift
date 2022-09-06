@@ -1,23 +1,16 @@
 import Foundation
 import Combine
 
-class PincodeViewModel: StateSender, StateReciever, ObservableObject {
+class PincodeViewModel: StateSender, StateReciever, ObservableObject {    
     typealias SenderStateType = PincodeState
-
+    var stateSender: PassthroughSubject<SenderStateType, Never> = .init()
+    var stateReceiver: PassthroughSubject<StateType, Never> = .init()
     @Published var state: StateType
-    var stateSubject: PassthroughSubject<SenderStateType, Never>  = .init()
- 
-    var statePublisher: Published<StateType>.Publisher {
-        get { $state }
-        set { $state = newValue }
-    }
-
-    var statePublished: Published<StateType> { _state }
 
     let stateMapper: StateMapper?
     let store: AuthenticateStore
     
-    private var anyCancellables: Set<AnyCancellable> = []
+    var cancelBag: CancelBag = []
 
     init(store: AuthenticateStore, mapper: StateMapper? = nil) {
         self.store = store
@@ -25,14 +18,19 @@ class PincodeViewModel: StateSender, StateReciever, ObservableObject {
 
         let state = stateMapper!.mapState(SenderStateType.start) ?? PincodeState.logout
         self.state = state
+        
+        setupBindings()
+        
+        stateReceiver.send(state)
+    }
+    
+    private func setupBindings() {
+        self.bindState(on: self)
 
-        $state
-            .print("---")
-            .compactMap{ $0 as? SenderStateType }
-            .receive(on: DispatchQueue.main)
-            .bindState(to: self)
-//            .subscribe(stateSubject)
-            .store(in: &anyCancellables)
+        stateSender
+            .print("===")
+            .compactMap{ $0 }
+            .assign(to: &$state)
     }
 }
 
