@@ -11,21 +11,22 @@ final class EnterPasswordViewModel: StateSender, ObservableObject {
 
     let loginRequest: PassthroughSubject<Void, Never> = .init()
 
-    private var anyCancellables: Set<AnyCancellable> = []
-    var stateSubscription: AnyCancellable?
+    var cancelBag: CancelBag = []
 
     init(store: AuthenticateStore) {
         self.store = store
 
-        stateSender
-            .assign(to: &$state)
-//            .store(in: &anyCancellables)
+        setupBindings()
+    }
+
+    private func setupBindings() {
+        stateSender.assign(to: &$state)
 
         loginRequest
             .flatMap { [unowned self] in self.store.login() }
             .map { _ in PasswordState.finish }
             .receive(on: DispatchQueue.main)
-            .assign(to: &$state)
+            .subscribe(stateSender)
+            .store(in: &cancelBag)
     }
-
 }

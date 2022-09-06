@@ -10,13 +10,14 @@ class HomeEnterViewModel: ObservableObject, StateReciever {
 
     let store: AuthenticateStore
 
-    private var anyCancellables: Set<AnyCancellable> = []
-    var stateSubscription: AnyCancellable?
+    var cancelBag: CancelBag = []
 
     init(mapper: StateMapper) {
         self.stateMapper = mapper
 
         store = AuthenticateStore()
         state = store.isLogin ? PincodeState.start : PasswordState.start
+        
+        stateReceiver.assign(to: &$state)
     }
 }

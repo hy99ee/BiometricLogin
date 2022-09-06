@@ -21,12 +21,16 @@ final class CreatePincodeViewModel: StateSender, ObservableObject {
     private let maxCount = 4
     private var currentCount = 0
 
-    private var anyCancellables: Set<AnyCancellable> = []
-    var stateSubscription: AnyCancellable?
+    var cancelBag: CancelBag = []
 
     init(store: AuthenticateStore) {
         self.store = store
 
+        setupBindings()
+    }
+    
+    private func setupBindings() {
+        
         stateSender.assign(to: &$state)
 
         numberClick
@@ -45,15 +49,17 @@ final class CreatePincodeViewModel: StateSender, ObservableObject {
                 default: break
                 }
             }
-            .store(in: &anyCancellables)
+            .store(in: &cancelBag)
         
         prepincodeRequest
             .map { _ in CreatePincodeState.approve }
-            .assign(to: &$state)
+            .subscribe(stateSender)
+            .store(in: &cancelBag)
 
         pincodeRequest
             .map { _ in CreatePincodeState.loading }
-            .assign(to: &$state)
+            .subscribe(stateSender)
+            .store(in: &cancelBag)
 
         pincodeRequest
             .delay(for: 3, scheduler: DispatchQueue.main)
@@ -63,6 +69,7 @@ final class CreatePincodeViewModel: StateSender, ObservableObject {
                 self.pincode = ""
                 return .request(status: isApprove)
             }
-            .assign(to: &$state)
+            .subscribe(stateSender)
+            .store(in: &cancelBag)
     }
 }

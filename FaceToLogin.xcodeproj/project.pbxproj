@@ -16,6 +16,8 @@
 		3B57B6A428AAE9C4008DFCBD /* EnterPincodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B57B6A328AAE9C4008DFCBD /* EnterPincodeViewModel.swift */; };
 		3B57B6A628AAEE83008DFCBD /* HomeEnterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B57B6A528AAEE83008DFCBD /* HomeEnterViewModel.swift */; };
 		3B57B6A828AE9479008DFCBD /* StateTransitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B57B6A728AE9479008DFCBD /* StateTransitions.swift */; };
+		3B5833D928C72CAC00266CB5 /* Foundation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5833D828C72CAC00266CB5 /* Foundation.swift */; };
+		3B5833DB28C7350900266CB5 /* CancelBag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5833DA28C7350900266CB5 /* CancelBag.swift */; };
 		3B6E61EE28BFB79100BC310B /* PincodeNumbersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6E61ED28BFB79100BC310B /* PincodeNumbersView.swift */; };
 		3B6F1A8928B8ECF8006A508A /* Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6F1A8828B8ECF8006A508A /* Animations.swift */; };
 		3B7A4B8D28BCABFA00562115 /* PincodeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B7A4B8C28BCABFA00562115 /* PincodeState.swift */; };
@@ -49,6 +51,8 @@
 		3B57B6A328AAE9C4008DFCBD /* EnterPincodeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterPincodeViewModel.swift; sourceTree = "<group>"; };
 		3B57B6A528AAEE83008DFCBD /* HomeEnterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeEnterViewModel.swift; sourceTree = "<group>"; };
 		3B57B6A728AE9479008DFCBD /* StateTransitions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateTransitions.swift; sourceTree = "<group>"; };
+		3B5833D828C72CAC00266CB5 /* Foundation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Foundation.swift; sourceTree = "<group>"; };
+		3B5833DA28C7350900266CB5 /* CancelBag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelBag.swift; sourceTree = "<group>"; };
 		3B6E61ED28BFB79100BC310B /* PincodeNumbersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PincodeNumbersView.swift; sourceTree = "<group>"; };
 		3B6F1A8828B8ECF8006A508A /* Animations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animations.swift; sourceTree = "<group>"; };
 		3B7A4B8C28BCABFA00562115 /* PincodeState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PincodeState.swift; sourceTree = "<group>"; };
@@ -108,6 +112,7 @@
 			children = (
 				3B382BE9289D52CD00F0981D /* UserDefaults.swift */,
 				3B33A3A728A39A950033DBF8 /* Publisher.swift */,
+				3B5833D828C72CAC00266CB5 /* Foundation.swift */,
 			);
 			path = Wrappers;
 			sourceTree = "<group>";
@@ -117,6 +122,7 @@
 			children = (
 				3B382BEB289D52EE00F0981D /* Wrappers */,
 				3B6F1A8828B8ECF8006A508A /* Animations.swift */,
+				3B5833DA28C7350900266CB5 /* CancelBag.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -332,6 +338,7 @@
 				3B382BE5289D306900F0981D /* AuthenticateStore.swift in Sources */,
 				3B7A4BA228BF483800562115 /* CreatePincodeState.swift in Sources */,
 				3BAF6A28289C069100B4945A /* KeychainPasswordItem.swift in Sources */,
+				3B5833D928C72CAC00266CB5 /* Foundation.swift in Sources */,
 				3BDF10E828A292F4002AD163 /* EnterPincodeView.swift in Sources */,
 				3BAF6A1B289C05CB00B4945A /* EnterPasswordView.swift in Sources */,
 				3B382BEF289D5A8F00F0981D /* EnterPasswordViewModel.swift in Sources */,
@@ -346,6 +353,7 @@
 				3B57B6A628AAEE83008DFCBD /* HomeEnterViewModel.swift in Sources */,
 				3B382BE1289D1F1500F0981D /* BiometricAuth.swift in Sources */,
 				3BDF10E628A1038F002AD163 /* HomeEnterView.swift in Sources */,
+				3B5833DB28C7350900266CB5 /* CancelBag.swift in Sources */,
 				3B7A4B9128BCAFED00562115 /* PincodeView.swift in Sources */,
 				3B33A3A828A39A950033DBF8 /* Publisher.swift in Sources */,
 				3B382BE3289D20B200F0981D /* KeychainConfiguration.swift in Sources */,
