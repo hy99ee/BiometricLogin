@@ -10,7 +10,14 @@ final class CreatePincodeViewModel: StateSender, ObservableObject {
     @Published var passcode = Passcode()
     @Published var numbers = PasscodeNumbersViewModel()
 
-    let stateSender: PassthroughSubject<CreatePincodeState, Never> = .init()
+    let stateSender: PassthroughSubject<SenderStateType, Never> = .init()
+
+    var stateFilter: StateFilter = {
+        switch $0 {
+        case CreatePincodeState.finish: return true
+        default: return false
+        }
+    }
 
     private let store: AuthenticateStore
 
@@ -30,63 +37,47 @@ final class CreatePincodeViewModel: StateSender, ObservableObject {
         passcode.objectWillChange.sink { [unowned self] in self.objectWillChange.send() }.store(in: &cancelBag)
 
         numbers.rightButtonClicked
-            .sink {[unowned self] in prepasscode.isFull && !passcode.emptyInputPasscode
-                ? passcode.removeElement.send()
-                : prepasscode.removeElement.send()
+            .sink {[unowned self] in
+                prepasscode.isFull && !passcode.emptyInputPasscode
+                    ? passcode.removeElement.send()
+                    : prepasscode.removeElement.send()
             }
             .store(in: &cancelBag)
-        
-        numbers.rightButtonClicked
-            .filter { [unowned self] in prepasscode.isFull && passcode.emptyInputPasscode }
-            .map { _ in .start }
-            .subscribe(stateSender)
-            .store(in: &cancelBag)
-
-//        numbers.rightButtonClicked
-//
-//            .filter {[unowned self] in $0.count == 1 && prepasscode.isFull && !prepasscode.emptyInputPasscode }
-//            .map { _ in .start }
-//            .subscribe(stateSender)
-//            .store(in: &cancelBag)
 
         numbers.numberButtonClicked
-            .sink {[unowned self] in prepasscode.isFull
+            .handleEvents(receiveOutput: {[unowned self] in
+                prepasscode.isFull
                 ? passcode.newElement.send($0)
                 : prepasscode.newElement.send($0)
-            }
-            .store(in: &cancelBag)
-
-        prepasscode.passcode
-            .filter{ !$0.isEmpty }
-            .delay(for: .milliseconds(250), scheduler: RunLoop.main)
+            })
+            .filter { [unowned self] _ in prepasscode.isFull && passcode.emptyInputPasscode }
             .map { _ in CreatePincodeState.approve }
+            .subscribe(stateSender)
+            .store(in: &cancelBag)
+        
+        prepasscode.removeElement
+            .filter { [unowned self] _ in passcode.emptyInputPasscode }
+            .map { _ in .start }
             .subscribe(stateSender)
             .store(in: &cancelBag)
 
         passcode.passcode
             .combineLatest(prepasscode.passcode)
-            .print("---")
             .filter { !$0.0.isEmpty && !$0.1.isEmpty }
-            .map { $0.0 == $0.1 ? CreatePincodeState.request(status: true) : CreatePincodeState.failure }
+            .map { $0.0 == $0.1 ? .request(status: true) : .failure }
             .subscribe(stateSender)
             .store(in: &cancelBag)
 
         passcode.passcode
-            .filter{ !$0.isEmpty }
+            .combineLatest(prepasscode.passcode)
+            .filter { !$0.0.isEmpty && !$0.1.isEmpty }
             .delay(for: 3, scheduler: RunLoop.main)
             .handleEvents(receiveOutput: { [weak self] _ in
                 self?.passcode.reset.send()
                 self?.prepasscode.reset.send()
             })
-            .map { _ in .start }
+            .map { $0.0 == $0.1 ? .request(status: false) : .start }
             .subscribe(stateSender)
             .store(in: &cancelBag)
-
-//        passcode.passcode
-//            .print("+++")
-//            .filter {[unowned self] in $0.isEmpty && prepasscode.isFull && !prepasscode.emptyInputPasscode }
-//            .map { _ in .start }
-//            .subscribe(stateSender)
-//            .store(in: &cancelBag)
     }
 }

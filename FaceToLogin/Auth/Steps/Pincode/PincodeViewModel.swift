@@ -1,35 +1,41 @@
 import Foundation
 import Combine
+import SwiftUI
 
-class PincodeViewModel: StateSender, StateReciever, ObservableObject {    
+final class PincodeViewModel: StateTransitor, ObservableObject {
     typealias SenderStateType = PincodeState
     var stateSender: PassthroughSubject<SenderStateType, Never> = .init()
     var stateReceiver: PassthroughSubject<StateType, Never> = .init()
+
     @Published var state: StateType
 
     let stateMapper: StateMapper?
     let store: AuthenticateStore
-    
+
+    var stateFilter: StateFilter = {
+        switch $0 {
+        case PincodeState.logout: return true
+        default: return false
+        }
+    }
+
     var cancelBag: CancelBag = []
 
     init(store: AuthenticateStore, mapper: StateMapper? = nil) {
         self.store = store
         self.stateMapper = mapper == nil ? PincodeStateMapper(store: store) : mapper
 
-        let state = stateMapper!.mapState(SenderStateType.start) ?? PincodeState.logout
+        let state = stateMapper!.mapState(PincodeState.start) ?? PincodeState.logout
         self.state = state
         
         setupBindings()
-        
-        stateReceiver.send(state)
     }
     
     private func setupBindings() {
-        self.bindState(on: self)
-
-        stateSender
-            .compactMap{ $0 }
-            .assign(to: &$state)
+        self.bindState(
+            sender: self,
+            receiver: self,
+            viewState: &$state
+        )
     }
 }
-

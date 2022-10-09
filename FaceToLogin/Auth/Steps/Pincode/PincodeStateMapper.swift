@@ -1,7 +1,9 @@
 import Foundation
 
 class PincodeStateMapper: StateMapper {
-    let store: AuthenticateStore
+    private let store: AuthenticateStore
+    private var lastMappedStep: PincodeState?
+
     init(store: AuthenticateStore) {
         self.store = store
     }
@@ -11,7 +13,7 @@ class PincodeStateMapper: StateMapper {
         return pincodeMapState(state)
     }
     
-    private func pincodeMapState(_ state: PincodeStateType) -> PincodeStateType? {
+    private func pincodeMapState(_ state: PincodeStateType) -> PincodeState? {
         switch state {
         case let state as PincodeState:
             switch state {
@@ -27,17 +29,18 @@ class PincodeStateMapper: StateMapper {
 
         case let state as CreatePincodeState:
             switch state {
-            case .finish: return PincodeState.finish
+            case let .request(status): return status ? nil : PincodeState.enter
+            case .finish: return PincodeState.logout
             default: return nil
             }
 
         default:
-            return state
+            return PincodeState.logout
         }
     }
     
-    private func isFirstLoginState() -> PincodeStateType {
-        self.store.isLogin ?  CreatePincodeState.start : EnterPincodeState.start
+    private func isFirstLoginState() -> PincodeState {
+        self.store.isLogin ?  .create : .enter
     }
 }
 

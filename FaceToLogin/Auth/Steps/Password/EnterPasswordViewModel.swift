@@ -2,12 +2,14 @@ import Foundation
 import SwiftUI
 import Combine
 
-final class EnterPasswordViewModel: StateSender, ObservableObject {    
+final class EnterPasswordViewModel: StateSender, ObservableObject {
     typealias SenderStateType = PasswordState
     @Published var state: SenderStateType = .start
     var stateSender: PassthroughSubject<PasswordState, Never> = .init()
 
     private let store: AuthenticateStore
+
+    var stateFilter: StateFilter = { _ in return true }
 
     let loginRequest: PassthroughSubject<Void, Never> = .init()
 

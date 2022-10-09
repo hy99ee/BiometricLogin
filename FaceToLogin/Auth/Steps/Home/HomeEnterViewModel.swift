@@ -18,6 +18,8 @@ class HomeEnterViewModel: ObservableObject, StateReciever {
         store = AuthenticateStore()
         state = store.isLogin ? PincodeState.start : PasswordState.start
         
-        stateReceiver.assign(to: &$state)
+        stateReceiver
+            .compactMap { mapper.mapState($0) }
+            .assign(to: &$state)
     }
 }

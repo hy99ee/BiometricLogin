@@ -1,5 +1,6 @@
 import Foundation
 import Combine
+import SwiftUI
 
 protocol StateType {}
 
@@ -7,19 +8,18 @@ protocol WithCancelBag: AnyObject {
     var cancelBag: CancelBag { get set }
 }
 
-protocol StateSender: WithCancelBag {
+protocol StateSender: WithStateFilter, WithCancelBag {
     associatedtype SenderStateType: StateType
     var stateSender: PassthroughSubject<SenderStateType, Never> { get }
-
-    func bindState<T: StateReciever>(to reciever: T) -> Self
 }
 
 extension StateSender {
     @discardableResult
-    func bindState<T: StateReciever>(to reciever: T) -> Self {
+    func bindState<Receiver: StateReciever>(receiver: Receiver) -> Self {
         stateSender
-            .mapState(mapper: reciever.stateMapper)
-            .subscribe(reciever.stateReceiver)
+            .filterState(filter: stateFilter)
+            .mapState(mapper: receiver.stateMapper)
+            .subscribe(receiver.stateReceiver)
             .store(in: &cancelBag)
 
         return self
@@ -32,13 +32,44 @@ protocol StateReciever: WithStateMapper, WithCancelBag {
 
 extension StateReciever {
     @discardableResult
-    func bindState<T: StateSender>(on sender: T) -> Self {
+    func bindState<T: StateSender>(sender: T) -> Self {
         stateReceiver
             .compactMap { $0 as? T.SenderStateType }
             .mapState(mapper: stateMapper)
             .compactMap { $0 as? T.SenderStateType }
             .subscribe(sender.stateSender)
             .store(in: &cancelBag)
+
+        return self
+    }
+}
+
+protocol StateTransitor: StateSender, StateReciever {}
+
+extension StateTransitor {
+    @discardableResult
+    func bindState<Sender: StateSender, Receiver: StateReciever>(
+        sender: Sender,
+        receiver: Receiver,
+        viewState: inout Published<StateType>.Publisher
+    ) -> Self {
+        let stateTransition: PassthroughSubject<SenderStateType, Never> = .init()
+
+        stateReceiver
+            .compactMap { $0 as? SenderStateType }
+            .mapState(mapper: stateMapper)
+            .compactMap { $0 as? SenderStateType }
+            .subscribe(stateTransition)
+            .store(in: &cancelBag)
+
+        stateTransition
+            .filterState(filter: stateFilter)
+            .subscribe(stateSender)
+            .store(in: &cancelBag)
+
+        stateTransition
+            .map { $0 }
+            .assign(to: &viewState)
 
         return self
     }

@@ -36,7 +36,7 @@
 		3BAF6A1D289C05CC00B4945A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3BAF6A1C289C05CC00B4945A /* Assets.xcassets */; };
 		3BAF6A20289C05CC00B4945A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3BAF6A1F289C05CC00B4945A /* Preview Assets.xcassets */; };
 		3BAF6A28289C069100B4945A /* KeychainPincodeItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAF6A27289C069100B4945A /* KeychainPincodeItem.swift */; };
-		3BBE97EA28B4E2BE00A3A7C6 /* StateMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBE97E928B4E2BE00A3A7C6 /* StateMapper.swift */; };
+		3BBE97EA28B4E2BE00A3A7C6 /* StateOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBE97E928B4E2BE00A3A7C6 /* StateOperators.swift */; };
 		3BBE97EE28B50DE400A3A7C6 /* HomeStateMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBE97ED28B50DE400A3A7C6 /* HomeStateMapper.swift */; };
 		3BDF10E628A1038F002AD163 /* HomeEnterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDF10E528A1038F002AD163 /* HomeEnterView.swift */; };
 		3BDF10E828A292F4002AD163 /* EnterPincodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDF10E728A292F4002AD163 /* EnterPincodeView.swift */; };
@@ -74,7 +74,7 @@
 		3BAF6A1F289C05CC00B4945A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		3BAF6A26289C05FB00B4945A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		3BAF6A27289C069100B4945A /* KeychainPincodeItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainPincodeItem.swift; sourceTree = "<group>"; };
-		3BBE97E928B4E2BE00A3A7C6 /* StateMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateMapper.swift; sourceTree = "<group>"; };
+		3BBE97E928B4E2BE00A3A7C6 /* StateOperators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateOperators.swift; sourceTree = "<group>"; };
 		3BBE97ED28B50DE400A3A7C6 /* HomeStateMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeStateMapper.swift; sourceTree = "<group>"; };
 		3BDF10E528A1038F002AD163 /* HomeEnterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeEnterView.swift; sourceTree = "<group>"; };
 		3BDF10E728A292F4002AD163 /* EnterPincodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterPincodeView.swift; sourceTree = "<group>"; };
@@ -167,7 +167,7 @@
 		3B57B6A928AE94A8008DFCBD /* State */ = {
 			isa = PBXGroup;
 			children = (
-				3BBE97E928B4E2BE00A3A7C6 /* StateMapper.swift */,
+				3BBE97E928B4E2BE00A3A7C6 /* StateOperators.swift */,
 				3B57B6A728AE9479008DFCBD /* StateTransitions.swift */,
 			);
 			path = State;
@@ -348,7 +348,7 @@
 			files = (
 				3B57B6A828AE9479008DFCBD /* StateTransitions.swift in Sources */,
 				3B57B6A428AAE9C4008DFCBD /* EnterPincodeViewModel.swift in Sources */,
-				3BBE97EA28B4E2BE00A3A7C6 /* StateMapper.swift in Sources */,
+				3BBE97EA28B4E2BE00A3A7C6 /* StateOperators.swift in Sources */,
 				3B7A4B9928BD067500562115 /* CreatePincodeView.swift in Sources */,
 				3B382BEA289D52CD00F0981D /* UserDefaults.swift in Sources */,
 				3B4AC2B928D3185700940D54 /* PincodeNumbersViewModel.swift in Sources */,

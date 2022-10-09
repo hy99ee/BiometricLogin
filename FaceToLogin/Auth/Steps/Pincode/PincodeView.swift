@@ -13,13 +13,12 @@ protocol CoordinatorViewType: View {
 
 struct PincodeView: View {
     @EnvironmentObject var viewModel: PincodeViewModel
-
     var body: some View {
         switch viewModel.state {
-        case EnterPincodeState.start:
-            EnterPincodeView().environmentObject(EnterPincodeViewModel(store: viewModel.store).bindState(to: viewModel))
-        case CreatePincodeState.start:
-            CreatePincodeView().environmentObject(CreatePincodeViewModel(store: viewModel.store).bindState(to: viewModel))
+        case PincodeState.enter:
+            EnterPincodeView().environmentObject(EnterPincodeViewModel(store: viewModel.store).bindState(receiver: viewModel))
+        case PincodeState.create:
+            CreatePincodeView().environmentObject(CreatePincodeViewModel(store: viewModel.store).bindState(receiver: viewModel))
         default: ProgressView()
         }
     }

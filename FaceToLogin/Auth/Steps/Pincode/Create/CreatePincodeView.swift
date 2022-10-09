@@ -3,10 +3,9 @@ import SwiftUI
 
 struct CreatePincodeView: View {
     @EnvironmentObject var viewModel: CreatePincodeViewModel
-    @State var isAnimating = false
-    @State var isDisabled = false
-    @State var approvePincode = false
-    @State var isFailure = false
+    @State private var isAnimating = false
+    @State private var approvePincode = false
+    @State private var isFailure = false
     
     @ViewBuilder
     private var rightButtonView: some View {
@@ -29,25 +28,21 @@ struct CreatePincodeView: View {
             }
             .scaleEffect(isAnimating ? 1.1 : 1)
             .opacity(isAnimating ? 0.5 : 1)
-            .foregroundColor(isFailure ? failureColor : primaryColor)
+            .foregroundColor(isFailure ? .red : primaryColor)
             .padding()
 
             PincodeNumbersView().environmentObject(viewModel.numbers.withButtons(left: AnyView(leftButtonView), right: AnyView(rightButtonView)))
                 .opacity(isAnimating ? 0.5 : 1)
         }
-        .disabled(isDisabled)
+        .disabled(isAnimating)
         .onReceive(viewModel.$state) { value in
             withAnimation(approvePincode ? Animation.default : .easeInOut(duration: 0.5)) {
-                isDisabled = true
                 approvePincode = {
                     switch value {
                     case .approve, .failure: return true
                     default: return false
                     }
                 }()
-                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(2000)) {
-                    isDisabled = false
-                }
             }
             withAnimation(isFailure ? Animation.default : .easeInOut(duration: 0.5)) {
                 isFailure = {
@@ -56,12 +51,8 @@ struct CreatePincodeView: View {
             }
             withAnimation(isAnimating ? Animation.default : .easeInOut(duration: 0.5).repeatForever()) {
                 isAnimating = {
-                    if case .request = value { return true } else { return false }
+                    if case let .request(status) = value { return status } else { return false }
                 }()
-//                isDisabled = {
-//                    if isAnimating { return true }
-//                }()
-                if isAnimating { isDisabled = true }
             }
         }
     }

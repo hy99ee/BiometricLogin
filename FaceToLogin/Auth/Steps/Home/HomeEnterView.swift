@@ -13,10 +13,10 @@ struct HomeEnterView: View {
     private func loginTypeView() -> some View {
         switch viewModel.state {
         case PincodeState.start:
-            PincodeView().environmentObject(PincodeViewModel(store: viewModel.store).bindState(to: viewModel))
+            PincodeView().environmentObject(PincodeViewModel(store: viewModel.store).bindState(receiver: viewModel))
         case PasswordState.start:
-            EnterPasswordView().environmentObject(EnterPasswordViewModel(store: viewModel.store).bindState(to: viewModel))
-        default: ProgressView()
+            EnterPasswordView().environmentObject(EnterPasswordViewModel(store: viewModel.store).bindState(receiver: viewModel))
+        default: ProgressView().background(.red)
         }
     }
 }

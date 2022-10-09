@@ -18,6 +18,13 @@ final class EnterPincodeViewModel: StateSender, ObservableObject {
 
     private let store: AuthenticateStore
 
+    var stateFilter: StateFilter = {
+        switch $0 {
+        case EnterPincodeState.finish: return true
+        default: return false
+        }
+    }
+    
     private let maxCount = 4
     private var currentCount = 0
 

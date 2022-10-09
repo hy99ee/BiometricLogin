@@ -4,6 +4,7 @@ protocol PincodeStateType: StateType {}
 
 enum PincodeState: PincodeStateType {
     case start
-    case finish
+    case create
+    case enter
     case logout
 }
