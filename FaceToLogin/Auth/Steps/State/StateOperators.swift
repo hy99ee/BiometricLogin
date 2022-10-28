@@ -10,9 +10,16 @@ protocol WithStateMapper {
 }
 
 // Filter for internal states
-typealias StateFilter = (_ state: StateType) -> Bool
+protocol StateFilter {
+    typealias FilterHandler = (_ state: StateType) -> Bool
+    var filter: FilterHandler { get }
+}
+class BaseStateFilter: StateFilter {
+    init(filter: @escaping FilterHandler) { self.filter = filter }
+    let filter: FilterHandler
+}
 protocol WithStateFilter {
-    var stateFilter: StateFilter { get }
+    var stateFilter: StateFilter? { get }
 }
 
 extension Publisher where Output: StateType, Failure == Never {
@@ -23,9 +30,9 @@ extension Publisher where Output: StateType, Failure == Never {
             .eraseToAnyPublisher()
     }
 
-    func filterState(filter: @escaping StateFilter) -> AnyPublisher<Self.Output, Never> {
+    func filterState(stateFilter: StateFilter?) -> AnyPublisher<Self.Output, Never> {
         self
-            .filter { filter($0) }
+            .filter { stateFilter?.filter($0) ?? true }
             .receive(on: DispatchQueue.main)
             .eraseToAnyPublisher()
     }

@@ -9,7 +9,7 @@ final class EnterPasswordViewModel: StateSender, ObservableObject {
 
     private let store: AuthenticateStore
 
-    var stateFilter: StateFilter = { _ in return true }
+    var stateFilter: StateFilter? = nil
 
     let loginRequest: PassthroughSubject<Void, Never> = .init()
 

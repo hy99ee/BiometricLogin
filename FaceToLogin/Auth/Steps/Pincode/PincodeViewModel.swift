@@ -12,12 +12,12 @@ final class PincodeViewModel: StateTransitor, ObservableObject {
     let stateMapper: StateMapper?
     let store: AuthenticateStore
 
-    var stateFilter: StateFilter = {
+    var stateFilter: StateFilter? = BaseStateFilter(filter: {
         switch $0 {
         case PincodeState.logout: return true
         default: return false
         }
-    }
+    })
 
     var cancelBag: CancelBag = []
 

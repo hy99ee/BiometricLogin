@@ -17,7 +17,7 @@ extension StateSender {
     @discardableResult
     func bindState<Receiver: StateReciever>(receiver: Receiver) -> Self {
         stateSender
-            .filterState(filter: stateFilter)
+            .filterState(stateFilter: stateFilter)
             .mapState(mapper: receiver.stateMapper)
             .subscribe(receiver.stateReceiver)
             .store(in: &cancelBag)
@@ -63,7 +63,7 @@ extension StateTransitor {
             .store(in: &cancelBag)
 
         stateTransition
-            .filterState(filter: stateFilter)
+            .filterState(stateFilter: stateFilter)
             .subscribe(stateSender)
             .store(in: &cancelBag)
 

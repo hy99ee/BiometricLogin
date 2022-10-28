@@ -12,12 +12,13 @@ final class CreatePincodeViewModel: StateSender, ObservableObject {
 
     let stateSender: PassthroughSubject<SenderStateType, Never> = .init()
 
-    var stateFilter: StateFilter = {
+    var stateFilter: StateFilter? = BaseStateFilter(filter: {
         switch $0 {
         case CreatePincodeState.finish: return true
+        case let CreatePincodeState.request(status): return status ? false : true
         default: return false
         }
-    }
+    })
 
     private let store: AuthenticateStore
 
@@ -30,7 +31,7 @@ final class CreatePincodeViewModel: StateSender, ObservableObject {
     }
     
     private func setupBindings() {        
-        stateSender.assign(to: &$state)
+        stateSender.print("===>").assign(to: &$state)
 
         self.objectWillChange.sink { [unowned self] in self.numbers.objectWillChange.send() }.store(in: &cancelBag)
         prepasscode.objectWillChange.sink { [unowned self] in self.objectWillChange.send() }.store(in: &cancelBag)
